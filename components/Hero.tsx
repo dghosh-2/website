@@ -93,11 +93,11 @@ export function Hero() {
                 <span className="text-gold font-medium">Carnegie Mellon University</span>.
               </p>
               <p className="text-lg text-charcoal-lighter font-satoshi">
-                Interested in AI/ML, quantitative trading & research, and software engineering.
+                Interested in {personalInfo.interests.join(', ')}.
               </p>
             </motion.div>
 
-            {/* Links */}
+            {/* Links - removed email */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -122,15 +122,6 @@ export function Hero() {
                 className="group flex items-center gap-2 text-charcoal hover:text-royal transition-colors duration-300"
               >
                 <span className="font-satoshi font-medium">GitHub</span>
-                <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
-                </svg>
-              </a>
-              <a
-                href={`mailto:${personalInfo.email}`}
-                className="group flex items-center gap-2 text-charcoal hover:text-royal transition-colors duration-300"
-              >
-                <span className="font-satoshi font-medium">Email</span>
                 <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
                 </svg>
@@ -189,9 +180,6 @@ export function Hero() {
           </svg>
         </motion.div>
       </motion.div>
-      
-      {/* Bottom gradient to yellow */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-gold/10 pointer-events-none" />
     </section>
   );
 }

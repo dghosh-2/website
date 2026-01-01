@@ -4,7 +4,7 @@ export const personalInfo = {
   lastName: 'Ghosh',
   title: 'Math + AI @ Carnegie Mellon University',
   tagline: 'Building at the intersection of mathematics, artificial intelligence, and finance',
-  interests: ['AI/ML', 'Quant Trading & Research', 'Software Engineering'],
+  interests: ['Quant Finance', 'AI/ML', 'Software Engineering'],
   email: 'dghosh2@andrew.cmu.edu',
   linkedin: 'https://www.linkedin.com/in/ghoshdhruv/',
   github: 'https://github.com/dghosh-2',
@@ -17,7 +17,7 @@ export const experiences = [
     role: 'ML/Optimization Research Assistant',
     company: 'CMU Prism Lab',
     description: 'FELIX - Research on biological superintelligence, developing machine learning and optimization algorithms for complex biological systems.',
-    logo: '/logos/cmu.svg',
+    logo: '/Prism.jpg',
     isPresent: true,
   },
   {
@@ -25,7 +25,7 @@ export const experiences = [
     role: 'Backend Software Developer Intern',
     company: 'Goalday',
     description: 'Built an AI Email Agent for construction project managers, automating communication workflows and improving operational efficiency.',
-    logo: '/logos/goalday.svg',
+    logo: '/goalday.jpg',
     isPresent: false,
   },
   {
@@ -33,7 +33,7 @@ export const experiences = [
     role: 'AI & Software Developer Intern',
     company: 'Routed AI',
     description: 'Developed a career networking tool leveraging AI to connect professionals and optimize career pathways.',
-    logo: '/logos/routed.svg',
+    logo: '/routed.jpg',
     isPresent: false,
   },
   {
@@ -41,7 +41,7 @@ export const experiences = [
     role: 'Undergraduate Researcher',
     company: 'Carnegie Mellon University',
     description: 'NLP research focused on privacy valuation reasoning, analyzing how natural language processing can be applied to understand privacy preferences.',
-    logo: '/logos/cmu.svg',
+    logo: '/CMU.jpg',
     isPresent: false,
   },
   {
@@ -49,7 +49,7 @@ export const experiences = [
     role: 'Full Stack Software Developer',
     company: 'CMU Scotty Labs',
     description: 'Developed Labrador and CMU Marketplace - full-stack applications serving the Carnegie Mellon community.',
-    logo: '/logos/scottylabs.svg',
+    logo: '/scottylabs.jpg',
     isPresent: false,
   },
   {
@@ -57,7 +57,7 @@ export const experiences = [
     role: 'Equity Research Analyst',
     company: 'CMU Tartan Student Fund',
     description: 'TMT sector analyst for a student-run investment group, conducting equity research and investment analysis.',
-    logo: '/logos/tsf.svg',
+    logo: '/tartanstudentfund.jpg',
     isPresent: false,
   },
   {
@@ -65,7 +65,7 @@ export const experiences = [
     role: 'Executive Board Member',
     company: 'CMU Introductory Finance Societies',
     description: 'Led initiatives in sales & trading and quantitative finance education for undergraduate students.',
-    logo: '/logos/cmufinance.svg',
+    logo: '/introductoryfinancesociety.jpg',
     isPresent: false,
   },
   {
@@ -73,7 +73,7 @@ export const experiences = [
     role: 'Private Equity Intern',
     company: 'Caprae Capital',
     description: 'Deal sourcing for lower/middle market private equity transactions, evaluating investment opportunities.',
-    logo: '/logos/caprae.svg',
+    logo: '/caprae.jpg',
     isPresent: false,
   },
 ];
@@ -88,8 +88,8 @@ export const projects = [
     backend: ['Python'],
     apis: ['NYC Restaurant Safety API'],
     deployed: true,
-    deployUrl: '#',
-    githubUrl: '#',
+    deployUrl: 'https://rat-challenge.vercel.app',
+    githubUrl: 'https://github.com/dghosh-2/RatChallenge',
     color: 'royal',
   },
   {
@@ -101,8 +101,8 @@ export const projects = [
     backend: ['Python'],
     apis: ['YFinance API', 'OpenAI API', 'SQLAlchemy'],
     deployed: true,
-    deployUrl: '#',
-    githubUrl: '#',
+    deployUrl: 'https://market-scout-chi.vercel.app',
+    githubUrl: 'https://github.com/dghosh-2/Market-Scout',
     color: 'gold',
   },
   {
@@ -114,8 +114,8 @@ export const projects = [
     backend: ['Python', 'FastAPI'],
     apis: ['Windborne API', 'NASA FIRMS API', 'OpenWeatherMap'],
     deployed: true,
-    deployUrl: '#',
-    githubUrl: '#',
+    deployUrl: 'https://sky-drift.vercel.app',
+    githubUrl: 'https://github.com/dghosh-2/SkyDrift',
     color: 'royal',
   },
 ];
@@ -123,36 +123,29 @@ export const projects = [
 export const about = {
   academic: {
     school: 'Carnegie Mellon University',
+    highSchool: 'Lynbrook High School',
     location: 'Pittsburgh, PA',
     degree: 'Mathematics and Artificial Intelligence',
-    description: 'Carnegie Mellon University is a global research university known for its programs in computer science, engineering, and business. The School of Computer Science is consistently ranked among the top in the world, pioneering research in AI, robotics, and machine learning.',
+    clubs: [
+      { name: 'Sales & Trading Academy', note: '1 of 2 selected in Spring 2025' },
+      { name: 'Quant Club' },
+    ],
+    coursework: {
+      math: ['3D Calculus', 'Matrices & Linear Algebra', 'Game Theory', 'Discrete Math', 'Counting & Graph Theory'],
+      cs: ['Fundamentals of Programming', 'Data Structures & Algorithms', 'Functional Programming', 'Computer Systems', 'Probability & Computing'],
+    },
   },
-  interests: [
-    'Quantitative Finance',
-    'Artificial Intelligence',
-    'Machine Learning',
-    'Software Engineering',
-    'Algorithm Design',
-    'Data Science',
-  ],
+  interests: ['Quant Finance', 'AI/ML', 'Software Engineering'],
   personal: [
-    {
-      icon: 'dumbbell',
-      title: 'Weightlifting',
-      description: 'Staying active in the gym',
-    },
-    {
-      icon: 'basketball',
-      title: 'Basketball',
-      description: 'Playing pickup games',
-    },
-    {
-      icon: 'music',
-      title: 'Music',
-      description: 'Former all-state musician',
-    },
+    { emoji: '🏋️', title: 'Weightlifting' },
+    { emoji: '🏀', title: 'Basketball' },
+    { emoji: '🎺', title: 'Music', note: 'all-state musician' },
+    { emoji: '🏈', title: 'Football' },
+    { emoji: '🥊', title: 'Boxing' },
+    { emoji: '👟', title: 'Sneakers' },
+    { emoji: '🎬', title: 'Classic Movies' },
+    { emoji: '🏓', title: 'Table Tennis' },
   ],
-  funFact: 'I was a high school all-state musician 🎵',
 };
 
 export const navItems = [
@@ -162,4 +155,3 @@ export const navItems = [
   { name: 'About', href: '#about' },
   { name: 'Contact', href: '#contact' },
 ];
-

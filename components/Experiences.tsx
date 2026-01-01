@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 import { experiences } from '@/lib/data';
 
 export function Experiences() {
@@ -9,7 +10,7 @@ export function Experiences() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="experience" className="relative py-32 bg-gradient-to-b from-gold/10 via-gold/5 to-royal/10">
+    <section id="experience" className="relative py-32 bg-gradient-to-b from-white via-gold/20 to-gold/30">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
         <motion.div
@@ -19,12 +20,24 @@ export function Experiences() {
           transition={{ duration: 0.6 }}
           className="mb-16"
         >
-          <span className="font-satoshi text-sm text-charcoal-lighter tracking-widest uppercase">
+          <motion.span 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="font-satoshi text-sm text-charcoal-lighter tracking-widest uppercase"
+          >
             Experience
-          </span>
-          <h2 className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal mt-2">
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal mt-2"
+          >
             Where I&apos;ve worked
-          </h2>
+          </motion.h2>
         </motion.div>
 
         {/* Experience List */}
@@ -62,21 +75,30 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
       className="group relative border-t border-charcoal/10 last:border-b"
     >
       <div className="py-8 md:py-10 cursor-pointer">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          {/* Left side */}
+        <div className="flex items-center gap-4 md:gap-6">
+          {/* Logo */}
+          <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+            <Image
+              src={experience.logo}
+              alt={experience.company}
+              fill
+              className="object-cover"
+            />
+          </div>
+          
+          {/* Content */}
           <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              <h3 className="font-clash font-semibold text-xl md:text-2xl text-charcoal group-hover:text-royal transition-colors duration-300">
+            <div className="flex items-center gap-3 mb-1">
+              <h3 className="font-clash font-semibold text-lg md:text-xl text-charcoal group-hover:text-royal transition-colors duration-300">
                 {experience.role}
               </h3>
               {experience.isPresent && (
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/20 text-gold-dark text-xs font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
                   Present
                 </span>
               )}
             </div>
-            <p className="font-satoshi text-charcoal-lighter">
+            <p className="font-satoshi text-charcoal-lighter text-sm md:text-base">
               {experience.company}
             </p>
           </div>
@@ -92,7 +114,7 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
           transition={{ duration: 0.3 }}
           className="overflow-hidden"
         >
-          <p className="font-satoshi text-charcoal-lighter mt-4 max-w-2xl leading-relaxed">
+          <p className="font-satoshi text-charcoal-lighter mt-4 ml-16 md:ml-20 max-w-2xl leading-relaxed text-sm md:text-base">
             {experience.description}
           </p>
         </motion.div>
