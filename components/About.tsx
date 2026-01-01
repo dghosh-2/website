@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import { about } from '@/lib/data';
 
 export function About() {
@@ -9,45 +10,39 @@ export function About() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="about" className="relative py-32 bg-gradient-to-b from-royal/40 via-charcoal/80 to-charcoal">
+    <section id="about" className="relative py-32 bg-charcoal">
       <div ref={ref} className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
+        <div className="mb-16 overflow-hidden">
           <motion.span 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="font-satoshi text-sm text-gray-400 tracking-widest uppercase"
+            className="block font-satoshi text-sm text-gray-500 tracking-widest uppercase mb-2"
           >
             About
           </motion.span>
           <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-white mt-2"
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-white"
           >
             A bit about me
           </motion.h2>
-        </motion.div>
+        </div>
 
-        {/* Interests at the top as text */}
+        {/* Interests at the top as text - same color */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-12"
         >
-          <p className="font-satoshi text-lg text-gray-300">
-            Interested in <span className="text-gold">{about.interests.join(', ')}</span>
+          <p className="font-satoshi text-lg text-gray-400">
+            Interested in {about.interests.join(', ')}.
           </p>
         </motion.div>
 
@@ -60,38 +55,74 @@ export function About() {
             className="space-y-8"
           >
             <div>
-              <h3 className="font-clash font-semibold text-2xl text-white mb-4">
+              <motion.h3 
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.35 }}
+                className="font-clash font-semibold text-2xl text-white mb-4"
+              >
                 Education
-              </h3>
-              <div className="space-y-3">
-                <p className="font-satoshi text-xl text-white">
-                  {about.academic.school}
-                </p>
-                <p className="font-satoshi text-gray-400">
-                  {about.academic.degree}
-                </p>
-                <p className="font-satoshi text-sm text-gray-500">
-                  {about.academic.location}
-                </p>
-                
-                {/* Clubs */}
-                <div className="pt-2 space-y-1">
-                  {about.academic.clubs.map((club) => (
-                    <p key={club.name} className="font-satoshi text-sm text-gray-400">
-                      {club.name} {club.note && <span className="text-gold">({club.note})</span>}
-                    </p>
-                  ))}
+              </motion.h3>
+              
+              {/* CMU with logo */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="flex items-start gap-4 mb-4"
+              >
+                <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white flex-shrink-0">
+                  <Image
+                    src="/CMULOGO.jpg"
+                    alt="Carnegie Mellon University"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
+                <div className="space-y-1">
+                  <p className="font-satoshi text-xl text-white">
+                    {about.academic.school}
+                  </p>
+                  <p className="font-satoshi text-gray-400">
+                    {about.academic.degree}
+                  </p>
+                  <p className="font-satoshi text-sm text-gray-500">
+                    {about.academic.location}
+                  </p>
+                </div>
+              </motion.div>
                 
-                {/* High School */}
-                <p className="font-satoshi text-sm text-gray-500 pt-2">
-                  Previously: {about.academic.highSchool}
-                </p>
-              </div>
+              {/* Clubs */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.45 }}
+                className="space-y-1 ml-16"
+              >
+                {about.academic.clubs.map((club) => (
+                  <p key={club.name} className="font-satoshi text-sm text-gray-400">
+                    {club.name} {club.note && <span className="text-gray-400">({club.note})</span>}
+                  </p>
+                ))}
+              </motion.div>
+              
+              {/* High School */}
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+                className="font-satoshi text-sm text-gray-500 mt-4 ml-16"
+              >
+                Previously: {about.academic.highSchool}
+              </motion.p>
             </div>
 
             {/* Relevant Coursework */}
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+            >
               <h4 className="font-clash font-medium text-lg text-white mb-3">
                 Relevant Coursework
               </h4>
@@ -109,10 +140,14 @@ export function About() {
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Beyond Work - moved under education */}
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
               <h4 className="font-clash font-medium text-lg text-white mb-3">
                 Beyond work
               </h4>
@@ -122,7 +157,7 @@ export function About() {
                     key={item.title}
                     initial={{ opacity: 0, x: -10 }}
                     animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                    transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
+                    transition={{ duration: 0.3, delay: 0.65 + index * 0.05 }}
                     className="flex items-center gap-3"
                   >
                     <span className="text-lg">{item.emoji}</span>
@@ -133,10 +168,10 @@ export function About() {
                   </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
-          {/* Right Column - Empty or can add more content later */}
+          {/* Right Column - Decorative */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}

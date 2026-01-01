@@ -10,35 +10,29 @@ export function Experiences() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="experience" className="relative py-32 bg-gradient-to-b from-white via-gold/20 to-gold/30">
+    <section id="experience" className="relative py-32 bg-gradient-to-b from-white via-gold/15 to-gold/25">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
+        <div className="mb-16 overflow-hidden">
           <motion.span 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="font-satoshi text-sm text-charcoal-lighter tracking-widest uppercase"
+            className="block font-satoshi text-sm text-charcoal-lighter tracking-widest uppercase mb-2"
           >
             Experience
           </motion.span>
           <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal mt-2"
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal"
           >
             Where I&apos;ve worked
           </motion.h2>
-        </motion.div>
+        </div>
 
         {/* Experience List */}
         <div ref={ref} className="space-y-0">
@@ -77,14 +71,19 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
       <div className="py-8 md:py-10 cursor-pointer">
         <div className="flex items-center gap-4 md:gap-6">
           {/* Logo */}
-          <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.4, delay: index * 0.08 + 0.2 }}
+            className="relative w-12 h-12 md:w-14 md:h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0"
+          >
             <Image
               src={experience.logo}
               alt={experience.company}
               fill
               className="object-cover"
             />
-          </div>
+          </motion.div>
           
           {/* Content */}
           <div className="flex-1">
@@ -93,9 +92,14 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
                 {experience.role}
               </h3>
               {experience.isPresent && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/20 text-gold-dark text-xs font-medium">
+                <motion.span 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.3, delay: index * 0.08 + 0.3 }}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/20 text-gold-dark text-xs font-medium"
+                >
                   Present
-                </span>
+                </motion.span>
               )}
             </div>
             <p className="font-satoshi text-charcoal-lighter text-sm md:text-base">

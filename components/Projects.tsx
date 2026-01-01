@@ -9,35 +9,29 @@ export function Projects() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="projects" className="relative py-32 bg-gradient-to-b from-gold/30 via-royal/30 to-royal/40">
+    <section id="projects" className="relative py-32 bg-gradient-to-b from-gold/25 via-[#0a3d0c] to-charcoal">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-16"
-        >
+        <div className="mb-16 overflow-hidden">
           <motion.span 
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="font-satoshi text-sm text-charcoal-lighter tracking-widest uppercase"
+            className="block font-satoshi text-sm text-charcoal-lighter tracking-widest uppercase mb-2"
           >
             Projects
           </motion.span>
           <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal mt-2"
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal"
           >
             Selected work
           </motion.h2>
-        </motion.div>
+        </div>
 
         {/* Projects Grid */}
         <div ref={ref} className="grid grid-cols-1 gap-8">
@@ -73,7 +67,7 @@ function ProjectCard({ project, index, isInView }: ProjectCardProps) {
       onMouseLeave={() => setIsHovered(false)}
       className="group relative"
     >
-      <div className="relative p-8 md:p-12 rounded-2xl bg-white/80 backdrop-blur border border-charcoal/10 hover:border-charcoal/20 transition-all duration-500 overflow-hidden">
+      <div className="relative p-8 md:p-12 rounded-2xl bg-white/90 backdrop-blur border border-charcoal/10 hover:border-charcoal/20 transition-all duration-500 overflow-hidden">
         {/* Background gradient on hover */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -84,7 +78,11 @@ function ProjectCard({ project, index, isInView }: ProjectCardProps) {
         <div className="relative z-10">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+              transition={{ duration: 0.5, delay: index * 0.15 + 0.2 }}
+            >
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-gold font-satoshi text-sm">0{index + 1}</span>
                 <span className="w-8 h-px bg-charcoal/20" />
@@ -95,35 +93,56 @@ function ProjectCard({ project, index, isInView }: ProjectCardProps) {
               <p className="font-satoshi text-charcoal-lighter mt-1">
                 {project.tagline}
               </p>
-            </div>
+            </motion.div>
 
             {/* Live badge - simplified */}
             {project.deployed && (
-              <span className="text-green-600 text-sm font-medium font-satoshi">
+              <motion.span 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.4, delay: index * 0.15 + 0.3 }}
+                className="text-green-600 text-sm font-medium font-satoshi"
+              >
                 Live
-              </span>
+              </motion.span>
             )}
           </div>
 
           {/* Description */}
-          <p className="font-satoshi text-charcoal-lighter leading-relaxed mb-8 max-w-3xl">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: index * 0.15 + 0.3 }}
+            className="font-satoshi text-charcoal-lighter leading-relaxed mb-8 max-w-3xl"
+          >
             {project.description}
-          </p>
+          </motion.p>
 
-          {/* Tech Stack */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            {[...project.frontend, ...project.backend, ...project.apis].map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 rounded-full bg-charcoal/5 text-charcoal-lighter text-sm font-satoshi"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+          {/* Tech Stack - List format */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: index * 0.15 + 0.4 }}
+            className="mb-8 space-y-2"
+          >
+            <p className="font-satoshi text-sm text-charcoal">
+              <span className="text-charcoal-lighter">Frontend:</span> {project.frontend.join(', ')}
+            </p>
+            <p className="font-satoshi text-sm text-charcoal">
+              <span className="text-charcoal-lighter">Backend:</span> {project.backend.join(', ')}
+            </p>
+            <p className="font-satoshi text-sm text-charcoal">
+              <span className="text-charcoal-lighter">APIs & Tools:</span> {project.apis.join(', ')}
+            </p>
+          </motion.div>
 
           {/* Links */}
-          <div className="flex items-center gap-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: index * 0.15 + 0.5 }}
+            className="flex items-center gap-6"
+          >
             <a
               href={project.deployUrl}
               target="_blank"
@@ -146,7 +165,7 @@ function ProjectCard({ project, index, isInView }: ProjectCardProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
               </svg>
             </a>
-          </div>
+          </motion.div>
         </div>
 
         {/* Corner decoration */}
