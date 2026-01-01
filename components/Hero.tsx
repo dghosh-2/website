@@ -3,7 +3,35 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { personalInfo } from '@/lib/data';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
+
+function useTypingEffect(text: string, speed: number = 50, delay: number = 0) {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    const startTimeout = setTimeout(() => {
+      setHasStarted(true);
+    }, delay);
+    return () => clearTimeout(startTimeout);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+    
+    if (displayedText.length < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(text.slice(0, displayedText.length + 1));
+      }, speed);
+      return () => clearTimeout(timeout);
+    } else {
+      setIsComplete(true);
+    }
+  }, [hasStarted, displayedText, text, speed]);
+
+  return { displayedText, isComplete, hasStarted };
+}
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -14,6 +42,10 @@ export function Hero() {
 
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  // Typing animations for name
+  const firstName = useTypingEffect('Dhruv', 80, 300);
+  const lastName = useTypingEffect('Ghosh', 80, 800);
 
   return (
     <section
@@ -58,33 +90,37 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left side - Main content */}
           <div className="lg:col-span-8 space-y-8">
-            {/* Name - Large typography */}
+            {/* Name - Large typography with typing effect */}
             <div className="space-y-2">
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-                className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight text-charcoal leading-[0.9]"
-              >
-                Dhruv
-              </motion.h1>
-              <motion.h1
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight leading-[0.9]"
-              >
+              <h1 className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight text-charcoal leading-[0.9]">
+                {firstName.displayedText}
+                {firstName.hasStarted && !firstName.isComplete && (
+                  <motion.span
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
+                    className="inline-block w-[4px] h-[0.75em] bg-charcoal ml-2 align-middle"
+                  />
+                )}
+              </h1>
+              <h1 className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight leading-[0.9]">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-royal via-royal-light to-gold">
-                  Ghosh
+                  {lastName.displayedText}
+                  {lastName.hasStarted && !lastName.isComplete && (
+                    <motion.span
+                      animate={{ opacity: [1, 0] }}
+                      transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
+                      className="inline-block w-[4px] h-[0.75em] bg-royal ml-2 align-middle"
+                    />
+                  )}
                 </span>
-              </motion.h1>
+              </h1>
             </div>
 
             {/* Description */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              animate={{ opacity: lastName.isComplete ? 1 : 0, y: lastName.isComplete ? 0 : 20 }}
+              transition={{ duration: 0.6 }}
               className="max-w-xl space-y-4"
             >
               <p className="text-xl md:text-2xl text-charcoal font-satoshi leading-relaxed">
@@ -100,8 +136,8 @@ export function Hero() {
             {/* Links - removed email */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+              animate={{ opacity: lastName.isComplete ? 1 : 0, y: lastName.isComplete ? 0 : 20 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
               className="flex flex-wrap items-center gap-6 pt-4"
             >
               <a
@@ -167,8 +203,8 @@ export function Hero() {
       {/* Scroll indicator - just arrow */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
+        animate={{ opacity: lastName.isComplete ? 1 : 0 }}
+        transition={{ delay: 0.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div

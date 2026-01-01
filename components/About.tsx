@@ -1,19 +1,52 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { about } from '@/lib/data';
 
+function useTypingEffect(text: string, speed: number = 50, delay: number = 0, trigger: boolean = true) {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    if (!trigger) return;
+    const startTimeout = setTimeout(() => {
+      setHasStarted(true);
+    }, delay);
+    return () => clearTimeout(startTimeout);
+  }, [delay, trigger]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+    
+    if (displayedText.length < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(text.slice(0, displayedText.length + 1));
+      }, speed);
+      return () => clearTimeout(timeout);
+    } else {
+      setIsComplete(true);
+    }
+  }, [hasStarted, displayedText, text, speed]);
+
+  return { displayedText, isComplete, hasStarted };
+}
+
 export function About() {
   const ref = useRef(null);
+  const headerRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const headerInView = useInView(headerRef, { once: true, margin: '-50px' });
+  
+  const titleTyping = useTypingEffect("A bit about me", 50, 200, headerInView);
 
   return (
     <section id="about" className="relative py-32 bg-charcoal">
       <div ref={ref} className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
-        <div className="mb-16 overflow-hidden">
+        <div ref={headerRef} className="mb-16 overflow-hidden">
           <motion.span 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -23,15 +56,16 @@ export function About() {
           >
             About
           </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-white"
-          >
-            A bit about me
-          </motion.h2>
+          <h2 className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-white">
+            {titleTyping.displayedText}
+            {titleTyping.hasStarted && !titleTyping.isComplete && (
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
+                className="inline-block w-[4px] h-[0.75em] bg-white ml-2 align-middle"
+              />
+            )}
+          </h2>
         </div>
 
         {/* Interests at the top as text - same color */}
@@ -171,30 +205,35 @@ export function About() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column - Decorative */}
+          {/* Right Column - CMU Logo */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             className="hidden lg:block"
           >
-            {/* Decorative element */}
             <div className="relative h-full flex items-center justify-center">
+              {/* Rotating rings */}
               <motion.div
-                className="w-64 h-64 rounded-full border border-gray-700/50"
+                className="absolute w-72 h-72 rounded-full border border-gray-700/50"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
               />
               <motion.div
-                className="absolute w-48 h-48 rounded-full border border-gold/20"
+                className="absolute w-80 h-80 rounded-full border border-gold/20"
                 animate={{ rotate: -360 }}
                 transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
               />
-              <motion.div
-                className="absolute w-32 h-32 rounded-full border border-royal/30"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              />
+              
+              {/* CMU Logo in center */}
+              <div className="relative w-48 h-48 rounded-full overflow-hidden bg-white">
+                <Image
+                  src="/CMULOGO.jpg"
+                  alt="Carnegie Mellon University"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
           </motion.div>
         </div>
