@@ -1,18 +1,51 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { projects } from '@/lib/data';
+
+function useTypingEffect(text: string, speed: number = 50, delay: number = 0, trigger: boolean = true) {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    if (!trigger) return;
+    const startTimeout = setTimeout(() => {
+      setHasStarted(true);
+    }, delay);
+    return () => clearTimeout(startTimeout);
+  }, [delay, trigger]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+    
+    if (displayedText.length < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(text.slice(0, displayedText.length + 1));
+      }, speed);
+      return () => clearTimeout(timeout);
+    } else {
+      setIsComplete(true);
+    }
+  }, [hasStarted, displayedText, text, speed]);
+
+  return { displayedText, isComplete, hasStarted };
+}
 
 export function Projects() {
   const ref = useRef(null);
+  const headerRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const headerInView = useInView(headerRef, { once: true, margin: '-50px' });
+  
+  const titleTyping = useTypingEffect("Selected work", 50, 200, headerInView);
 
   return (
     <section id="projects" className="relative py-32 bg-gradient-to-b from-gold/25 via-[#0a3d0c] to-charcoal">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
-        <div className="mb-16 overflow-hidden">
+        <div ref={headerRef} className="mb-16 overflow-hidden">
           <motion.span 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -22,15 +55,16 @@ export function Projects() {
           >
             Projects
           </motion.span>
-          <motion.h2 
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal"
-          >
-            Selected work
-          </motion.h2>
+          <h2 className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal">
+            {titleTyping.displayedText}
+            {titleTyping.hasStarted && !titleTyping.isComplete && (
+              <motion.span
+                animate={{ opacity: [1, 0] }}
+                transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
+                className="inline-block w-[4px] h-[0.75em] bg-charcoal ml-2 align-middle"
+              />
+            )}
+          </h2>
         </div>
 
         {/* Projects Grid */}
