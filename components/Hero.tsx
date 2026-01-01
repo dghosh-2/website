@@ -159,21 +159,14 @@ export function Hero() {
               />
               
               {/* Image container */}
-              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden bg-gradient-to-br from-royal/10 to-gold/10">
+              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden">
                 <Image
                   src="/profile.jpg"
                   alt="Dhruv Ghosh"
                   fill
-                  className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  className="object-cover"
                   priority
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                  }}
                 />
-                {/* Fallback */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-clash font-bold text-4xl text-transparent bg-clip-text bg-gradient-to-r from-royal to-gold">DG</span>
-                </div>
               </div>
             </div>
           </motion.div>
