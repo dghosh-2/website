@@ -98,32 +98,22 @@ export function About() {
                 Education
               </motion.h3>
               
-              {/* CMU with logo */}
+              {/* CMU */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex items-start gap-4 mb-4"
+                className="space-y-1 mb-4"
               >
-                <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-white flex-shrink-0">
-                  <Image
-                    src="/CMULOGO.jpg"
-                    alt="Carnegie Mellon University"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <p className="font-satoshi text-xl text-white">
-                    {about.academic.school}
-                  </p>
-                  <p className="font-satoshi text-gray-400">
-                    {about.academic.degree}
-                  </p>
-                  <p className="font-satoshi text-sm text-gray-500">
-                    {about.academic.location}
-                  </p>
-                </div>
+                <p className="font-satoshi text-xl text-white">
+                  {about.academic.school}
+                </p>
+                <p className="font-satoshi text-gray-400">
+                  {about.academic.degree}
+                </p>
+                <p className="font-satoshi text-sm text-gray-500">
+                  {about.academic.location}
+                </p>
               </motion.div>
                 
               {/* Clubs */}
@@ -131,7 +121,7 @@ export function About() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: 0.45 }}
-                className="space-y-1 ml-16"
+                className="space-y-1"
               >
                 {about.academic.clubs.map((club) => (
                   <p key={club.name} className="font-satoshi text-sm text-gray-400">
@@ -145,7 +135,7 @@ export function About() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="font-satoshi text-sm text-gray-500 mt-4 ml-16"
+                className="font-satoshi text-sm text-gray-500 mt-4"
               >
                 Previously: {about.academic.highSchool}
               </motion.p>
