@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navItems } from '@/lib/data';
-import { Menu, X } from 'lucide-react';
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,9 +11,8 @@ export function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      setIsScrolled(window.scrollY > 50);
       
-      // Update active section based on scroll position
       const sections = navItems.map(item => item.href.replace('#', ''));
       const scrollPosition = window.scrollY + 200;
       
@@ -41,17 +39,18 @@ export function Navigation() {
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ 
-          y: isScrolled ? 0 : -100, 
-          opacity: isScrolled ? 1 : 0 
-        }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="fixed top-0 left-0 right-0 z-40 px-4 py-3"
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'py-4' : 'py-6'
+        }`}
       >
-        <div className="max-w-6xl mx-auto">
-          <div className="glass rounded-full px-6 py-3 flex items-center justify-between shadow-lg border border-white/20">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+          <nav className={`flex items-center justify-between transition-all duration-300 ${
+            isScrolled ? 'bg-white/80 backdrop-blur-lg rounded-full px-6 py-3 shadow-sm' : ''
+          }`}>
             {/* Logo */}
             <motion.a
               href="#home"
@@ -59,55 +58,62 @@ export function Navigation() {
                 e.preventDefault();
                 handleNavClick('#home');
               }}
-              className="font-clash font-bold text-xl text-charcoal"
+              className="font-clash font-bold text-xl"
               whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               <span className="text-royal">D</span>
               <span className="text-gold">G</span>
             </motion.a>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center gap-8">
               {navItems.map((item) => (
-                <motion.a
+                <a
                   key={item.name}
                   href={item.href}
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavClick(item.href);
                   }}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors ${
+                  className={`relative font-satoshi text-sm transition-colors duration-300 ${
                     activeSection === item.href.replace('#', '')
                       ? 'text-royal'
                       : 'text-charcoal-lighter hover:text-charcoal'
                   }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   {item.name}
                   {activeSection === item.href.replace('#', '') && (
                     <motion.div
-                      layoutId="activeNav"
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gold"
+                      layoutId="activeIndicator"
+                      className="absolute -bottom-1 left-0 right-0 h-px bg-royal"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                </motion.a>
+                </a>
               ))}
             </div>
 
-            {/* Mobile Menu Button */}
-            <motion.button
-              className="md:hidden p-2 text-charcoal"
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden flex flex-col gap-1.5 p-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileTap={{ scale: 0.9 }}
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </motion.button>
-          </div>
+              <motion.span
+                animate={isMobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                className="w-6 h-0.5 bg-charcoal"
+              />
+              <motion.span
+                animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+                className="w-6 h-0.5 bg-charcoal"
+              />
+              <motion.span
+                animate={isMobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                className="w-6 h-0.5 bg-charcoal"
+              />
+            </button>
+          </nav>
         </div>
-      </motion.nav>
+      </motion.header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -116,37 +122,33 @@ export function Navigation() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-30 pt-24 px-4 md:hidden"
+            className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden"
           >
-            <div className="glass rounded-2xl p-6 shadow-xl border border-white/20">
-              <div className="flex flex-col gap-2">
-                {navItems.map((item, index) => (
-                  <motion.a
-                    key={item.name}
-                    href={item.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(item.href);
-                    }}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className={`px-4 py-3 rounded-lg text-lg font-medium transition-colors ${
-                      activeSection === item.href.replace('#', '')
-                        ? 'bg-royal/10 text-royal'
-                        : 'text-charcoal hover:bg-gray-100'
-                    }`}
-                  >
-                    {item.name}
-                  </motion.a>
-                ))}
-              </div>
-            </div>
+            <nav className="flex flex-col gap-4">
+              {navItems.map((item, index) => (
+                <motion.a
+                  key={item.name}
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item.href);
+                  }}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className={`font-clash text-3xl font-medium py-2 ${
+                    activeSection === item.href.replace('#', '')
+                      ? 'text-royal'
+                      : 'text-charcoal'
+                  }`}
+                >
+                  {item.name}
+                </motion.a>
+              ))}
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
     </>
   );
 }
-

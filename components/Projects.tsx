@@ -3,63 +3,32 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { projects } from '@/lib/data';
-import { AnimatedHeading } from './ui/AnimatedText';
-import { Card3D } from './ui/Card';
-import { FloatingElement } from './ui/ParallaxSection';
-import { Code2, ExternalLink, Github, Rocket } from 'lucide-react';
 
 export function Projects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="projects" className="relative py-32 bg-gradient-to-b from-white via-primary-50 to-white overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 pointer-events-none">
-        <FloatingElement className="absolute top-32 left-[8%]" delay={0.5} duration={9}>
-          <div className="w-20 h-20 border border-gold/15 rounded-full" />
-        </FloatingElement>
-        <FloatingElement className="absolute bottom-20 right-[12%]" delay={1} duration={7}>
-          <div className="w-14 h-14 border border-royal/20 rotate-12" />
-        </FloatingElement>
-        <div className="absolute top-1/3 -left-48 w-96 h-96 rounded-full bg-gradient-to-br from-royal/5 to-transparent blur-3xl" />
-        <div className="absolute bottom-1/4 -right-48 w-80 h-80 rounded-full bg-gradient-to-tl from-gold/5 to-transparent blur-3xl" />
-      </div>
-
-      <div className="relative z-10 max-w-6xl mx-auto px-4">
+    <section id="projects" className="relative py-32 bg-charcoal">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold/10 text-gold-dark text-sm font-medium mb-4"
-          >
-            <Rocket size={16} />
-            <span>Featured Work</span>
-          </motion.div>
-          
-          <AnimatedHeading
-            as="h2"
-            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal"
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-16"
+        >
+          <span className="font-satoshi text-sm text-gray-400 tracking-widest uppercase">
             Projects
-          </AnimatedHeading>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-4 text-lg text-charcoal-lighter max-w-2xl mx-auto"
-          >
-            Full-stack applications solving real-world problems with modern technologies
-          </motion.p>
-        </div>
+          </span>
+          <h2 className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-white mt-2">
+            Selected work
+          </h2>
+        </motion.div>
 
         {/* Projects Grid */}
-        <div ref={ref} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div ref={ref} className="grid grid-cols-1 gap-8">
           {projects.map((project, index) => (
             <ProjectCard
               key={project.id}
@@ -82,136 +51,102 @@ interface ProjectCardProps {
 
 function ProjectCard({ project, index, isInView }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const isRoyal = project.color === 'royal';
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 60 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.25, 0.4, 0.25, 1] }}
-      className="h-full"
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{ duration: 0.6, delay: index * 0.15 }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative"
     >
-      <Card3D className="h-full">
-        <div
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="relative h-full rounded-2xl overflow-hidden"
-          style={{
-            padding: '2px',
-            background: isRoyal
-              ? 'linear-gradient(135deg, #1B5E20, #2E7D32, #D4AF37)'
-              : 'linear-gradient(135deg, #D4AF37, #FFD700, #1B5E20)',
-          }}
-        >
-          <div className="relative h-full bg-white rounded-2xl p-6 flex flex-col">
-            {/* Header */}
-            <div className="mb-4">
-              <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-3 ${
-                isRoyal ? 'bg-royal/10 text-royal' : 'bg-gold/10 text-gold-dark'
-              }`}>
-                <Code2 size={14} />
-                <span>Full Stack</span>
+      <div className="relative p-8 md:p-12 rounded-2xl bg-charcoal-light border border-gray-800 hover:border-gray-700 transition-all duration-500 overflow-hidden">
+        {/* Background gradient on hover */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          className="absolute inset-0 bg-gradient-to-br from-royal/10 via-transparent to-gold/10"
+        />
+
+        <div className="relative z-10">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-gold font-satoshi text-sm">0{index + 1}</span>
+                <span className="w-8 h-px bg-gray-700" />
               </div>
-              
-              <h3 className="font-clash font-bold text-2xl text-charcoal mb-1">
+              <h3 className="font-clash font-bold text-2xl md:text-3xl text-white group-hover:text-gold transition-colors duration-300">
                 {project.name}
               </h3>
-              <p className={`text-sm font-medium ${isRoyal ? 'text-royal' : 'text-gold-dark'}`}>
+              <p className="font-satoshi text-gray-400 mt-1">
                 {project.tagline}
               </p>
             </div>
 
-            {/* Description */}
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ 
-                height: isHovered ? 'auto' : 0, 
-                opacity: isHovered ? 1 : 0 
-              }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              <p className="text-sm text-charcoal-lighter leading-relaxed mb-4">
-                {project.description}
-              </p>
-            </motion.div>
-
-            {/* Tech Stack */}
-            <div className="flex-1">
-              <div className="space-y-3">
-                <TechRow label="Frontend" items={project.frontend} color={isRoyal ? 'royal' : 'gold'} />
-                <TechRow label="Backend" items={project.backend} color={isRoyal ? 'royal' : 'gold'} />
-                <TechRow label="APIs" items={project.apis} color={isRoyal ? 'royal' : 'gold'} />
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center gap-3 mt-6 pt-4 border-t border-gray-100">
-              {project.deployed && (
-                <motion.a
-                  href={project.deployUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all ${
-                    isRoyal
-                      ? 'bg-gradient-to-r from-royal to-royal-light hover:shadow-royal'
-                      : 'bg-gradient-to-r from-gold-dark to-gold hover:shadow-gold'
-                  }`}
-                >
-                  <ExternalLink size={16} />
-                  <span>View Live</span>
-                </motion.a>
-              )}
-              
-              <motion.a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 rounded-xl border border-gray-200 flex items-center justify-center text-charcoal-lighter hover:text-charcoal hover:border-charcoal transition-all"
-              >
-                <Github size={18} />
-              </motion.a>
-            </div>
-
-            {/* Deployed badge */}
+            {/* Live badge */}
             {project.deployed && (
-              <div className="absolute top-4 right-4">
-                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 text-green-600 text-xs font-medium">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                  Deployed
-                </div>
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-green-400 text-sm font-medium">Live</span>
               </div>
             )}
           </div>
+
+          {/* Description */}
+          <p className="font-satoshi text-gray-300 leading-relaxed mb-8 max-w-3xl">
+            {project.description}
+          </p>
+
+          {/* Tech Stack */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {[...project.frontend, ...project.backend, ...project.apis].map((tech) => (
+              <span
+                key={tech}
+                className="px-3 py-1 rounded-full bg-gray-800 text-gray-300 text-sm font-satoshi"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          {/* Links */}
+          <div className="flex items-center gap-6">
+            <a
+              href={project.deployUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/link flex items-center gap-2 text-white hover:text-gold transition-colors"
+            >
+              <span className="font-satoshi font-medium">View Project</span>
+              <svg className="w-4 h-4 transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group/link flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            >
+              <span className="font-satoshi">GitHub</span>
+              <svg className="w-4 h-4 transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+          </div>
         </div>
-      </Card3D>
+
+        {/* Corner decoration */}
+        <div className="absolute top-0 right-0 w-32 h-32">
+          <motion.div
+            animate={{ rotate: isHovered ? 90 : 0 }}
+            transition={{ duration: 0.6 }}
+            className="absolute top-8 right-8 w-16 h-16 border border-gray-700 rounded-full"
+          />
+        </div>
+      </div>
     </motion.div>
   );
 }
-
-function TechRow({ label, items, color }: { label: string; items: string[]; color: 'royal' | 'gold' }) {
-  return (
-    <div className="flex items-start gap-2">
-      <span className="text-xs text-charcoal-lighter font-medium min-w-[60px]">{label}:</span>
-      <div className="flex flex-wrap gap-1.5">
-        {items.map((item) => (
-          <span
-            key={item}
-            className={`px-2 py-0.5 rounded text-xs font-medium ${
-              color === 'royal'
-                ? 'bg-royal/10 text-royal'
-                : 'bg-gold/10 text-gold-dark'
-            }`}
-          >
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-

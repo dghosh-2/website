@@ -1,212 +1,225 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { personalInfo } from '@/lib/data';
-import { AnimatedText } from './ui/AnimatedText';
-import { FloatingElement } from './ui/ParallaxSection';
-import { Linkedin, Github, Mail, ChevronDown } from 'lucide-react';
+import { useRef } from 'react';
 
 export function Hero() {
-  const scrollToExperience = () => {
-    const element = document.getElementById('experience');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <section
+      ref={containerRef}
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-primary"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Large gradient orbs */}
-        <motion.div
-          className="absolute top-1/4 -right-32 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-royal/10 to-transparent blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 -left-32 w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-gold/10 to-transparent blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        />
+      {/* Animated grid background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(27,94,32,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(27,94,32,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
         
-        {/* Geometric shapes */}
-        <FloatingElement className="absolute top-20 left-[15%]" delay={0} duration={7}>
-          <div className="w-16 h-16 border-2 border-royal/20 rotate-45" />
-        </FloatingElement>
-        <FloatingElement className="absolute bottom-32 right-[20%]" delay={1} duration={8}>
-          <div className="w-12 h-12 border-2 border-gold/30 rounded-full" />
-        </FloatingElement>
-        <FloatingElement className="absolute top-1/3 right-[10%]" delay={2} duration={6}>
-          <div className="w-8 h-8 bg-royal/10 rotate-12" />
-        </FloatingElement>
-        <FloatingElement className="absolute bottom-1/4 left-[10%]" delay={0.5} duration={9}>
-          <div className="w-20 h-20 border border-gold/20 rounded-full" />
-        </FloatingElement>
+        {/* Animated gradient orbs */}
+        <motion.div
+          className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(27,94,32,0.08) 0%, transparent 70%)',
+          }}
+          animate={{
+            x: [0, 50, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%)',
+          }}
+          animate={{
+            x: [0, -40, 0],
+            y: [0, 40, 0],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        />
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 py-20 flex flex-col items-center text-center">
-        {/* Profile Image */}
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-          className="relative mb-8"
-        >
-          {/* Gold ring animation */}
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: 'linear-gradient(135deg, var(--color-gold), var(--color-royal), var(--color-gold))',
-              padding: '4px',
-            }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-          >
-            <div className="w-full h-full rounded-full bg-white" />
-          </motion.div>
-          
-          {/* Profile image container */}
-          <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-xl bg-gradient-to-br from-royal/20 to-gold/20">
-            <Image
-              src="/profile.svg"
-              alt="Dhruv Ghosh"
-              fill
-              className="object-cover"
-              priority
-              onError={(e) => {
-                // Fallback to initials if image fails to load
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-              }}
-            />
-            {/* Fallback initials */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="font-clash font-bold text-4xl text-gradient">DG</span>
-            </div>
-          </div>
-          
-          {/* Floating accent */}
-          <motion.div
-            className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center shadow-gold"
-            animate={{ y: [-5, 5, -5] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <span className="text-white text-lg">✦</span>
-          </motion.div>
-        </motion.div>
-
-        {/* Name */}
-        <div className="mb-4 overflow-hidden">
-          <h1 className="font-clash font-bold text-5xl md:text-7xl lg:text-8xl tracking-tight">
-            <AnimatedText 
-              text={personalInfo.firstName.toUpperCase()} 
-              className="text-charcoal"
-              delay={0.3}
-              staggerChildren={0.05}
-            />
-            <span className="mx-2 md:mx-4" />
-            <AnimatedText 
-              text={personalInfo.lastName.toUpperCase()} 
-              className="text-gradient"
-              delay={0.6}
-              staggerChildren={0.05}
-            />
-          </h1>
-        </div>
-
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.6 }}
-          className="mb-6"
-        >
-          <p className="font-satoshi text-xl md:text-2xl text-charcoal-lighter">
-            <span className="text-royal font-semibold">Math + AI</span>
-            <span className="mx-2">@</span>
-            <span className="text-gold font-semibold">Carnegie Mellon University</span>
-          </p>
-        </motion.div>
-
-        {/* Interest Tags */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.6 }}
-          className="flex flex-wrap justify-center gap-3 mb-10"
-        >
-          {personalInfo.interests.map((interest, index) => (
-            <motion.span
-              key={interest}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.4 + index * 0.1 }}
-              whileHover={{ scale: 1.05, y: -2 }}
-              className="px-5 py-2.5 rounded-full text-sm font-medium border-2 border-royal/20 bg-white/80 text-charcoal hover:border-gold hover:shadow-gold transition-all duration-300"
+      <motion.div 
+        style={{ y, opacity }}
+        className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 w-full"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left side - Main content */}
+          <div className="lg:col-span-8 space-y-8">
+            {/* Greeting */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              {interest}
-            </motion.span>
-          ))}
-        </motion.div>
+              <span className="text-charcoal-lighter text-lg font-satoshi">
+                Hi, I&apos;m
+              </span>
+            </motion.div>
 
-        {/* Social Links */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.6 }}
-          className="flex items-center gap-4"
-        >
-          <SocialLink href={personalInfo.linkedin} icon={<Linkedin size={22} />} label="LinkedIn" />
-          <SocialLink href={personalInfo.github} icon={<Github size={22} />} label="GitHub" />
-          <SocialLink href={`mailto:${personalInfo.email}`} icon={<Mail size={22} />} label="Email" />
-        </motion.div>
+            {/* Name - Large typography */}
+            <div className="space-y-2">
+              <motion.h1
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight text-charcoal leading-[0.9]"
+              >
+                Dhruv
+              </motion.h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight leading-[0.9]"
+              >
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-royal via-royal-light to-gold">
+                  Ghosh
+                </span>
+              </motion.h1>
+            </div>
 
-        {/* Scroll Indicator */}
-        <motion.button
-          onClick={scrollToExperience}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-charcoal-lighter hover:text-royal transition-colors cursor-pointer"
-        >
-          <span className="text-sm font-medium">Scroll to explore</span>
+            {/* Description */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="max-w-xl space-y-4"
+            >
+              <p className="text-xl md:text-2xl text-charcoal font-satoshi leading-relaxed">
+                Studying <span className="text-royal font-medium">Mathematics</span> and{' '}
+                <span className="text-royal font-medium">Artificial Intelligence</span> at{' '}
+                <span className="text-gold font-medium">Carnegie Mellon University</span>.
+              </p>
+              <p className="text-lg text-charcoal-lighter font-satoshi">
+                Interested in AI/ML, quantitative trading & research, and software engineering.
+              </p>
+            </motion.div>
+
+            {/* Links */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-wrap items-center gap-6 pt-4"
+            >
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 text-charcoal hover:text-royal transition-colors duration-300"
+              >
+                <span className="font-satoshi font-medium">LinkedIn</span>
+                <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 text-charcoal hover:text-royal transition-colors duration-300"
+              >
+                <span className="font-satoshi font-medium">GitHub</span>
+                <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="group flex items-center gap-2 text-charcoal hover:text-royal transition-colors duration-300"
+              >
+                <span className="font-satoshi font-medium">Email</span>
+                <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right side - Profile image (subtle) */}
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="lg:col-span-4 flex justify-center lg:justify-end"
           >
-            <ChevronDown size={24} />
+            <div className="relative">
+              {/* Decorative ring */}
+              <motion.div
+                className="absolute -inset-4 rounded-full border border-royal/20"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+              />
+              <motion.div
+                className="absolute -inset-8 rounded-full border border-gold/10"
+                animate={{ rotate: -360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+              />
+              
+              {/* Image container */}
+              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden bg-gradient-to-br from-royal/10 to-gold/10">
+                <Image
+                  src="/profile.jpg"
+                  alt="Dhruv Ghosh"
+                  fill
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  priority
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+                {/* Fallback */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="font-clash font-bold text-4xl text-transparent bg-clip-text bg-gradient-to-r from-royal to-gold">DG</span>
+                </div>
+              </div>
+              
+              {/* Status indicator */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 1, type: 'spring' }}
+                className="absolute -bottom-2 -right-2 px-3 py-1.5 bg-white rounded-full shadow-lg border border-gray-100"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className="text-xs font-medium text-charcoal">Open to work</span>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
-        </motion.button>
-      </div>
+        </div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="flex flex-col items-center gap-2"
+        >
+          <span className="text-xs text-charcoal-lighter font-satoshi tracking-widest uppercase">Scroll</span>
+          <div className="w-px h-12 bg-gradient-to-b from-charcoal-lighter to-transparent" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
-
-function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
-  return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      whileHover={{ scale: 1.1, y: -3 }}
-      whileTap={{ scale: 0.95 }}
-      className="w-12 h-12 rounded-full border-2 border-charcoal/10 bg-white flex items-center justify-center text-charcoal-lighter hover:text-royal hover:border-royal hover:shadow-royal transition-all duration-300"
-    >
-      {icon}
-    </motion.a>
-  );
-}
-
