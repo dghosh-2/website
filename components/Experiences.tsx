@@ -9,7 +9,7 @@ export function Experiences() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="experience" className="relative py-32 bg-primary">
+    <section id="experience" className="relative py-32 bg-gradient-to-b from-gold/10 via-gold/5 to-royal/10">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
         <motion.div
@@ -59,7 +59,7 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
       transition={{ duration: 0.5, delay: index * 0.08 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative border-t border-gray-100 last:border-b"
+      className="group relative border-t border-charcoal/10 last:border-b"
     >
       <div className="py-8 md:py-10 cursor-pointer">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -70,7 +70,7 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
                 {experience.role}
               </h3>
               {experience.isPresent && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/10 text-gold-dark text-xs font-medium">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/20 text-gold-dark text-xs font-medium">
                   <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
                   Present
                 </span>
@@ -80,16 +80,6 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
               {experience.company}
             </p>
           </div>
-
-          {/* Arrow */}
-          <motion.div
-            animate={{ x: isHovered ? 5 : 0 }}
-            className="text-charcoal-lighter group-hover:text-royal transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </motion.div>
         </div>
 
         {/* Description - appears on hover */}
@@ -113,7 +103,7 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
         initial={{ scaleX: 0 }}
         animate={{ scaleX: isHovered ? 1 : 0 }}
         transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-        className="absolute inset-0 bg-gray-50 -z-10 origin-left"
+        className="absolute inset-0 bg-white/50 -z-10 origin-left"
       />
     </motion.div>
   );

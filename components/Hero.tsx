@@ -19,7 +19,7 @@ export function Hero() {
     <section
       ref={containerRef}
       id="home"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-primary"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white"
     >
       {/* Animated grid background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -58,17 +58,6 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left side - Main content */}
           <div className="lg:col-span-8 space-y-8">
-            {/* Greeting */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <span className="text-charcoal-lighter text-lg font-satoshi">
-                Hi, I&apos;m
-              </span>
-            </motion.div>
-
             {/* Name - Large typography */}
             <div className="space-y-2">
               <motion.h1
@@ -186,25 +175,12 @@ export function Hero() {
                   <span className="font-clash font-bold text-4xl text-transparent bg-clip-text bg-gradient-to-r from-royal to-gold">DG</span>
                 </div>
               </div>
-              
-              {/* Status indicator */}
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 1, type: 'spring' }}
-                className="absolute -bottom-2 -right-2 px-3 py-1.5 bg-white rounded-full shadow-lg border border-gray-100"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                  <span className="text-xs font-medium text-charcoal">Open to work</span>
-                </div>
-              </motion.div>
             </div>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - just arrow */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -214,12 +190,15 @@ export function Hero() {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="flex flex-col items-center gap-2"
         >
-          <span className="text-xs text-charcoal-lighter font-satoshi tracking-widest uppercase">Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-charcoal-lighter to-transparent" />
+          <svg className="w-6 h-6 text-charcoal-lighter" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
         </motion.div>
       </motion.div>
+      
+      {/* Bottom gradient to yellow */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-gold/10 pointer-events-none" />
     </section>
   );
 }
