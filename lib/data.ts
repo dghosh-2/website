@@ -1,0 +1,164 @@
+export const personalInfo = {
+  name: 'Dhruv Ghosh',
+  firstName: 'Dhruv',
+  lastName: 'Ghosh',
+  title: 'Math + AI @ Carnegie Mellon University',
+  tagline: 'Building at the intersection of mathematics, artificial intelligence, and finance',
+  interests: ['AI/ML', 'Quant Trading & Research', 'Software Engineering'],
+  email: 'dghosh2@andrew.cmu.edu',
+  linkedin: 'https://www.linkedin.com/in/ghoshdhruv/',
+  github: 'https://github.com',
+  location: 'Pittsburgh, PA',
+};
+
+export const experiences = [
+  {
+    id: 1,
+    role: 'ML/Optimization Research Assistant',
+    company: 'CMU Prism Lab',
+    description: 'FELIX - Research on biological superintelligence, developing machine learning and optimization algorithms for complex biological systems.',
+    logo: '/logos/cmu.svg',
+    isPresent: true,
+  },
+  {
+    id: 2,
+    role: 'Backend Software Developer Intern',
+    company: 'Goalday',
+    description: 'Built an AI Email Agent for construction project managers, automating communication workflows and improving operational efficiency.',
+    logo: '/logos/goalday.svg',
+    isPresent: false,
+  },
+  {
+    id: 3,
+    role: 'AI & Software Developer Intern',
+    company: 'Routed AI',
+    description: 'Developed a career networking tool leveraging AI to connect professionals and optimize career pathways.',
+    logo: '/logos/routed.svg',
+    isPresent: false,
+  },
+  {
+    id: 4,
+    role: 'Undergraduate Researcher',
+    company: 'Carnegie Mellon University',
+    description: 'NLP research focused on privacy valuation reasoning, analyzing how natural language processing can be applied to understand privacy preferences.',
+    logo: '/logos/cmu.svg',
+    isPresent: false,
+  },
+  {
+    id: 5,
+    role: 'Full Stack Software Developer',
+    company: 'CMU Scotty Labs',
+    description: 'Developed Labrador and CMU Marketplace - full-stack applications serving the Carnegie Mellon community.',
+    logo: '/logos/scottylabs.svg',
+    isPresent: false,
+  },
+  {
+    id: 6,
+    role: 'Equity Research Analyst',
+    company: 'CMU Tartan Student Fund',
+    description: 'TMT sector analyst for a student-run investment group, conducting equity research and investment analysis.',
+    logo: '/logos/tsf.svg',
+    isPresent: false,
+  },
+  {
+    id: 7,
+    role: 'Executive Board Member',
+    company: 'CMU Introductory Finance Societies',
+    description: 'Led initiatives in sales & trading and quantitative finance education for undergraduate students.',
+    logo: '/logos/cmufinance.svg',
+    isPresent: false,
+  },
+  {
+    id: 8,
+    role: 'Private Equity Intern',
+    company: 'Caprae Capital',
+    description: 'Deal sourcing for lower/middle market private equity transactions, evaluating investment opportunities.',
+    logo: '/logos/caprae.svg',
+    isPresent: false,
+  },
+];
+
+export const projects = [
+  {
+    id: 1,
+    name: 'Rat Challenge',
+    tagline: 'Is there a rat in my food?',
+    description: 'A full-stack application that combines food delivery order data with NYC Restaurant Inspection Results to uncover financial risks tied to food safety. The dashboard analyzes rodent violations, revenue at risk, health grades, and provides a watchlist of high-risk restaurants. Downloads of reports available.',
+    frontend: ['Next.js', 'JavaScript'],
+    backend: ['Python'],
+    apis: ['NYC Restaurant Safety API'],
+    deployed: true,
+    deployUrl: '#',
+    githubUrl: '#',
+    color: 'royal',
+  },
+  {
+    id: 2,
+    name: 'MarketScout',
+    tagline: 'AI for better investing',
+    description: 'Your personal assistant for AI-driven equity research reports. A full-stack equity research application designed to enable users to make better decisions about investing. Receive downloadable and customizable equity research reports with live and dynamic portfolio management.',
+    frontend: ['Next.js', 'JavaScript'],
+    backend: ['Python'],
+    apis: ['YFinance API', 'OpenAI API', 'SQLAlchemy'],
+    deployed: true,
+    deployUrl: '#',
+    githubUrl: '#',
+    color: 'gold',
+  },
+  {
+    id: 3,
+    name: 'SkyDrift',
+    tagline: 'Balloon Constellation Tracker',
+    description: 'Real-time analytics tool tracking 1000 weather balloons from Windborne Systems. Integrated with real-time, live storm and fire data for comprehensive analysis. Implemented features like custom zone tracking, balloon position predictions, and more.',
+    frontend: ['Next.js', 'TypeScript'],
+    backend: ['Python', 'FastAPI'],
+    apis: ['Windborne API', 'NASA FIRMS API', 'OpenWeatherMap'],
+    deployed: true,
+    deployUrl: '#',
+    githubUrl: '#',
+    color: 'royal',
+  },
+];
+
+export const about = {
+  academic: {
+    school: 'Carnegie Mellon University',
+    location: 'Pittsburgh, PA',
+    degree: 'Mathematics and Artificial Intelligence',
+    description: 'Carnegie Mellon University is a global research university known for its programs in computer science, engineering, and business. The School of Computer Science is consistently ranked among the top in the world, pioneering research in AI, robotics, and machine learning.',
+  },
+  interests: [
+    'Quantitative Finance',
+    'Artificial Intelligence',
+    'Machine Learning',
+    'Software Engineering',
+    'Algorithm Design',
+    'Data Science',
+  ],
+  personal: [
+    {
+      icon: 'dumbbell',
+      title: 'Fitness Enthusiast',
+      description: 'Passionate about weightlifting and staying active in the gym',
+    },
+    {
+      icon: 'basketball',
+      title: 'Basketball',
+      description: 'Love playing basketball in my free time',
+    },
+    {
+      icon: 'music',
+      title: 'Musician',
+      description: 'Former high school all-state musician with a deep appreciation for music',
+    },
+  ],
+};
+
+export const navItems = [
+  { name: 'Home', href: '#home' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'About', href: '#about' },
+  { name: 'Contact', href: '#contact' },
+];
+

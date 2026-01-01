@@ -1,0 +1,90 @@
+# Dhruv Ghosh Personal Portfolio - Cursor Rules
+
+## Project Overview
+This is a modern, animated single-page portfolio website built with Next.js 14, TypeScript, Tailwind CSS, and Framer Motion.
+
+## Tech Stack
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Framer Motion for animations
+- Google Fonts (Clash Display, Satoshi)
+
+## Design System
+
+### Colors
+- Primary: White (#FFFFFF, #FAFAFA)
+- Secondary: Royal Green (#1B5E20, #2E7D32)
+- Accent: Gold (#D4AF37, #FFD700)
+- Text: Dark charcoal (#1A1A1A)
+
+### Typography
+- Headings: Clash Display (bold, distinctive)
+- Body: Satoshi (clean, modern)
+
+## Code Style Guidelines
+
+### General
+- Use TypeScript for all files
+- Prefer functional components with hooks
+- Use named exports for components
+- Keep components focused and single-responsibility
+
+### File Organization
+- Components in `/components`
+- Reusable UI components in `/components/ui`
+- Data/content in `/lib/data.ts`
+- Styles in `/app/globals.css` and Tailwind classes
+
+### Naming Conventions
+- Components: PascalCase (e.g., `Hero.tsx`)
+- Utilities: camelCase (e.g., `formatDate.ts`)
+- CSS variables: kebab-case with `--` prefix
+
+### Animation Guidelines
+- Use Framer Motion for scroll-triggered animations
+- Implement parallax effects for visual depth
+- Add hover states with smooth transitions
+- Use stagger animations for lists/grids
+- Keep animations performant (prefer transform/opacity)
+
+### Tailwind Usage
+- Use custom CSS variables for theme colors
+- Prefer Tailwind utilities over custom CSS
+- Use responsive prefixes consistently (sm:, md:, lg:, xl:)
+- Group related utilities logically
+
+### Component Structure
+```tsx
+'use client'; // if using hooks/interactivity
+
+import { motion } from 'framer-motion';
+// other imports
+
+interface ComponentProps {
+  // typed props
+}
+
+export function Component({ prop }: ComponentProps) {
+  // hooks first
+  // handlers
+  // render
+}
+```
+
+### Performance
+- Use Next.js Image component for images
+- Lazy load below-fold content
+- Optimize animations for 60fps
+- Minimize bundle size
+
+### Accessibility
+- Use semantic HTML elements
+- Include proper ARIA labels
+- Ensure keyboard navigation
+- Maintain color contrast ratios
+
+## Git Workflow
+- Commit messages: descriptive and concise
+- Branch naming: feature/description or fix/description
+
