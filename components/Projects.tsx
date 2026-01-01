@@ -9,7 +9,7 @@ export function Projects() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="projects" className="relative py-32 bg-charcoal">
+    <section id="projects" className="relative py-32 bg-gradient-to-b from-royal/10 via-charcoal/90 to-charcoal">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
         <motion.div

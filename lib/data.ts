@@ -7,7 +7,7 @@ export const personalInfo = {
   interests: ['AI/ML', 'Quant Trading & Research', 'Software Engineering'],
   email: 'dghosh2@andrew.cmu.edu',
   linkedin: 'https://www.linkedin.com/in/ghoshdhruv/',
-  github: 'https://github.com',
+  github: 'https://github.com/dghosh-2',
   location: 'Pittsburgh, PA',
 };
 
@@ -138,20 +138,21 @@ export const about = {
   personal: [
     {
       icon: 'dumbbell',
-      title: 'Fitness Enthusiast',
-      description: 'Passionate about weightlifting and staying active in the gym',
+      title: 'Weightlifting',
+      description: 'Staying active in the gym',
     },
     {
       icon: 'basketball',
       title: 'Basketball',
-      description: 'Love playing basketball in my free time',
+      description: 'Playing pickup games',
     },
     {
       icon: 'music',
-      title: 'Musician',
-      description: 'Former high school all-state musician with a deep appreciation for music',
+      title: 'Music',
+      description: 'Former all-state musician',
     },
   ],
+  funFact: 'I was a high school all-state musician 🎵',
 };
 
 export const navItems = [
