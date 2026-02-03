@@ -177,17 +177,19 @@ function ProjectCard({ project, index, isInView }: ProjectCardProps) {
             transition={{ duration: 0.5, delay: index * 0.15 + 0.5 }}
             className="flex items-center gap-6"
           >
-            <a
-              href={project.deployUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group/link flex items-center gap-2 text-charcoal hover:text-royal transition-colors"
-            >
-              <span className="font-satoshi font-medium">View Project</span>
-              <svg className="w-4 h-4 transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
-              </svg>
-            </a>
+            {project.deployUrl && (
+              <a
+                href={project.deployUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/link flex items-center gap-2 text-charcoal hover:text-royal transition-colors"
+              >
+                <span className="font-satoshi font-medium">View Project</span>
+                <svg className="w-4 h-4 transform group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </a>
+            )}
             <a
               href={project.githubUrl}
               target="_blank"
