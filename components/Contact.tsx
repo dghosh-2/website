@@ -9,7 +9,7 @@ export function Contact() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section id="contact" className="relative py-32 bg-gradient-to-b from-charcoal to-white">
+    <section id="contact" className="relative py-32 bg-white">
       <div ref={ref} className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Main CTA */}
         <motion.div
@@ -18,22 +18,22 @@ export function Contact() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
-            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-white mb-8"
+            className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-black mb-8"
           >
             Get in touch
           </motion.h2>
-          
+
           <motion.a
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             href={`mailto:${personalInfo.email}`}
-            className="inline-block font-satoshi text-xl md:text-2xl text-gray-300 hover:text-gold transition-colors duration-300"
+            className="inline-block font-satoshi text-xl md:text-2xl text-gray-700 hover:text-gold transition-colors duration-300"
           >
             {personalInfo.email}
           </motion.a>
@@ -50,7 +50,7 @@ export function Contact() {
             href={personalInfo.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-satoshi text-gray-400 hover:text-white transition-colors"
+            className="font-satoshi text-gray-600 hover:text-black transition-colors"
           >
             LinkedIn
           </a>
@@ -58,7 +58,7 @@ export function Contact() {
             href={personalInfo.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-satoshi text-gray-400 hover:text-white transition-colors"
+            className="font-satoshi text-gray-600 hover:text-black transition-colors"
           >
             GitHub
           </a>
@@ -69,7 +69,7 @@ export function Contact() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-24 pt-8 border-t border-gray-800 text-center"
+          className="mt-24 pt-8 border-t border-gray-200 text-center"
         >
           <p className="font-satoshi text-sm text-gray-500">
             © {new Date().getFullYear()} Dhruv Ghosh

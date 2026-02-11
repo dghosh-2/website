@@ -12,10 +12,10 @@ export function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      
+
       const sections = navItems.map(item => item.href.replace('#', ''));
       const scrollPosition = window.scrollY + 200;
-      
+
       for (const section of sections.reverse()) {
         const element = document.getElementById(section);
         if (element && element.offsetTop <= scrollPosition) {
@@ -43,14 +43,12 @@ export function Navigation() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'py-4' : 'py-6'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-4' : 'py-6'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-          <nav className={`flex items-center justify-between transition-all duration-300 ${
-            isScrolled ? 'bg-white/80 backdrop-blur-lg rounded-full px-6 py-3 shadow-sm' : ''
-          }`}>
+          <nav className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-lg rounded-full px-6 py-3 shadow-sm' : ''
+            }`}>
             {/* Logo */}
             <motion.a
               href="#home"
@@ -61,7 +59,7 @@ export function Navigation() {
               className="font-clash font-bold text-xl"
               whileHover={{ scale: 1.05 }}
             >
-              <span className="text-royal">D</span>
+              <span className="text-black">D</span>
               <span className="text-gold">G</span>
             </motion.a>
 
@@ -75,17 +73,16 @@ export function Navigation() {
                     e.preventDefault();
                     handleNavClick(item.href);
                   }}
-                  className={`relative font-satoshi text-sm transition-colors duration-300 ${
-                    activeSection === item.href.replace('#', '')
-                      ? 'text-royal'
-                      : 'text-charcoal-lighter hover:text-charcoal'
-                  }`}
+                  className={`relative font-satoshi text-sm transition-colors duration-300 ${activeSection === item.href.replace('#', '')
+                      ? 'text-gold'
+                      : 'text-black-lighter hover:text-black'
+                    }`}
                 >
                   {item.name}
                   {activeSection === item.href.replace('#', '') && (
                     <motion.div
                       layoutId="activeIndicator"
-                      className="absolute -bottom-1 left-0 right-0 h-px bg-royal"
+                      className="absolute -bottom-1 left-0 right-0 h-px bg-gold"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -100,15 +97,15 @@ export function Navigation() {
             >
               <motion.span
                 animate={isMobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-                className="w-6 h-0.5 bg-charcoal"
+                className="w-6 h-0.5 bg-black"
               />
               <motion.span
                 animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-6 h-0.5 bg-charcoal"
+                className="w-6 h-0.5 bg-black"
               />
               <motion.span
                 animate={isMobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-                className="w-6 h-0.5 bg-charcoal"
+                className="w-6 h-0.5 bg-black"
               />
             </button>
           </nav>
@@ -136,11 +133,10 @@ export function Navigation() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  className={`font-clash text-3xl font-medium py-2 ${
-                    activeSection === item.href.replace('#', '')
-                      ? 'text-royal'
-                      : 'text-charcoal'
-                  }`}
+                  className={`font-clash text-3xl font-medium py-2 ${activeSection === item.href.replace('#', '')
+                      ? 'text-gold'
+                      : 'text-black'
+                    }`}
                 >
                   {item.name}
                 </motion.a>

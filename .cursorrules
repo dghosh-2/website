@@ -88,3 +88,4 @@ export function Component({ prop }: ComponentProps) {
 - Commit messages: descriptive and concise
 - Branch naming: feature/description or fix/description
 
+

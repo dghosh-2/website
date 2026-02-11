@@ -19,7 +19,7 @@ function useTypingEffect(text: string, speed: number = 50, delay: number = 0) {
 
   useEffect(() => {
     if (!hasStarted) return;
-    
+
     if (displayedText.length < text.length) {
       const timeout = setTimeout(() => {
         setDisplayedText(text.slice(0, displayedText.length + 1));
@@ -53,37 +53,10 @@ export function Hero() {
       id="home"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-white"
     >
-      {/* Animated grid background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(27,94,32,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(27,94,32,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        
-        {/* Animated gradient orbs */}
-        <motion.div
-          className="absolute top-1/4 right-1/4 w-[600px] h-[600px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(27,94,32,0.08) 0%, transparent 70%)',
-          }}
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%)',
-          }}
-          animate={{
-            x: [0, -40, 0],
-            y: [0, 40, 0],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
+      {/* Clean white background */}
 
       {/* Main Content */}
-      <motion.div 
+      <motion.div
         style={{ y, opacity }}
         className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 w-full"
       >
@@ -92,24 +65,24 @@ export function Hero() {
           <div className="lg:col-span-8 space-y-8">
             {/* Name - Large typography with typing effect */}
             <div className="space-y-2">
-              <h1 className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight text-charcoal leading-[0.9]">
+              <h1 className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight text-black leading-[0.9]">
                 {firstName.displayedText}
                 {firstName.hasStarted && !firstName.isComplete && (
                   <motion.span
                     animate={{ opacity: [1, 0] }}
                     transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
-                    className="inline-block w-[4px] h-[0.75em] bg-charcoal ml-2 align-middle"
+                    className="inline-block w-[4px] h-[0.75em] bg-black ml-2 align-middle"
                   />
                 )}
               </h1>
               <h1 className="font-clash font-bold text-6xl md:text-7xl lg:text-8xl xl:text-9xl tracking-tight leading-[0.9]">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-royal via-royal-light to-gold">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-dark via-gold to-gold-light">
                   {lastName.displayedText}
                   {lastName.hasStarted && !lastName.isComplete && (
                     <motion.span
                       animate={{ opacity: [1, 0] }}
                       transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
-                      className="inline-block w-[4px] h-[0.75em] bg-royal ml-2 align-middle"
+                      className="inline-block w-[4px] h-[0.75em] bg-gold ml-2 align-middle"
                     />
                   )}
                 </span>
@@ -123,12 +96,12 @@ export function Hero() {
               transition={{ duration: 0.6 }}
               className="max-w-xl space-y-4"
             >
-              <p className="text-xl md:text-2xl text-charcoal font-satoshi leading-relaxed">
-                Studying <span className="text-royal font-medium">Mathematics</span> and{' '}
-                <span className="text-royal font-medium">Artificial Intelligence</span> at{' '}
+              <p className="text-xl md:text-2xl text-black font-satoshi leading-relaxed">
+                Studying <span className="font-mono text-black font-medium">Mathematics</span> and{' '}
+                <span className="font-mono text-black font-medium">Artificial Intelligence</span> at{' '}
                 <span className="text-gold font-medium">Carnegie Mellon University</span>.
               </p>
-              <p className="text-lg text-charcoal-lighter font-satoshi">
+              <p className="text-lg text-black-lighter font-satoshi">
                 Interested in {personalInfo.interests.join(', ')}.
               </p>
             </motion.div>
@@ -144,7 +117,7 @@ export function Hero() {
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-2 text-charcoal hover:text-royal transition-colors duration-300"
+                className="group flex items-center gap-2 text-black hover:text-gold transition-colors duration-300"
               >
                 <span className="font-satoshi font-medium">LinkedIn</span>
                 <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -155,7 +128,7 @@ export function Hero() {
                 href={personalInfo.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-2 text-charcoal hover:text-royal transition-colors duration-300"
+                className="group flex items-center gap-2 text-black hover:text-gold transition-colors duration-300"
               >
                 <span className="font-satoshi font-medium">GitHub</span>
                 <svg className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -173,20 +146,8 @@ export function Hero() {
             className="lg:col-span-4 flex justify-center lg:justify-end"
           >
             <div className="relative">
-              {/* Decorative ring */}
-              <motion.div
-                className="absolute -inset-4 rounded-full border border-royal/20"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-              />
-              <motion.div
-                className="absolute -inset-8 rounded-full border border-gold/10"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-              />
-              
-              {/* Image container */}
-              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden">
+              {/* Image container - thin black border */}
+              <div className="relative w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden border border-black">
                 <Image
                   src="/profile.jpg"
                   alt="Dhruv Ghosh"
@@ -211,7 +172,7 @@ export function Hero() {
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <svg className="w-6 h-6 text-charcoal-lighter" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-6 h-6 text-black-lighter" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </motion.div>

@@ -20,7 +20,7 @@ function useTypingEffect(text: string, speed: number = 50, delay: number = 0, tr
 
   useEffect(() => {
     if (!hasStarted) return;
-    
+
     if (displayedText.length < text.length) {
       const timeout = setTimeout(() => {
         setDisplayedText(text.slice(0, displayedText.length + 1));
@@ -39,30 +39,30 @@ export function Experiences() {
   const headerRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const headerInView = useInView(headerRef, { once: true, margin: '-50px' });
-  
+
   const titleTyping = useTypingEffect("Where I've worked", 40, 200, headerInView);
 
   return (
-    <section id="experience" className="relative py-32 bg-gradient-to-b from-white via-gold/15 to-gold/25">
+    <section id="experience" className="relative py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
         {/* Section Header */}
         <div ref={headerRef} className="mb-16 overflow-hidden">
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="block font-satoshi text-sm text-charcoal-lighter tracking-widest uppercase mb-2"
+            className="block font-satoshi text-sm text-gray-500 tracking-widest uppercase mb-2"
           >
             Experience
           </motion.span>
-          <h2 className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-charcoal">
+          <h2 className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-black">
             {titleTyping.displayedText}
             {titleTyping.hasStarted && !titleTyping.isComplete && (
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
-                className="inline-block w-[4px] h-[0.75em] bg-charcoal ml-2 align-middle"
+                className="inline-block w-[4px] h-[0.75em] bg-black ml-2 align-middle"
               />
             )}
           </h2>
@@ -100,12 +100,12 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
       transition={{ duration: 0.5, delay: index * 0.08 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative border-t border-charcoal/10 last:border-b"
+      className="group relative border-t border-black/10 last:border-b"
     >
       <div className="py-8 md:py-10 cursor-pointer">
         <div className="flex items-center gap-4 md:gap-6">
           {/* Logo */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.4, delay: index * 0.08 + 0.2 }}
@@ -118,15 +118,15 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
               className="object-cover"
             />
           </motion.div>
-          
+
           {/* Content */}
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-1">
-              <h3 className="font-clash font-semibold text-lg md:text-xl text-charcoal group-hover:text-royal transition-colors duration-300">
+              <h3 className="font-mono font-semibold text-lg md:text-xl text-black group-hover:text-gold transition-colors duration-300">
                 {experience.role}
               </h3>
               {experience.isPresent && (
-                <motion.span 
+                <motion.span
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.3, delay: index * 0.08 + 0.3 }}
@@ -136,7 +136,7 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
                 </motion.span>
               )}
             </div>
-            <p className="font-satoshi text-charcoal-lighter text-sm md:text-base">
+            <p className="font-satoshi text-black-lighter text-sm md:text-base">
               {experience.company}
             </p>
           </div>
@@ -145,14 +145,14 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
         {/* Description - appears on hover */}
         <motion.div
           initial={{ height: 0, opacity: 0 }}
-          animate={{ 
-            height: isHovered ? 'auto' : 0, 
-            opacity: isHovered ? 1 : 0 
+          animate={{
+            height: isHovered ? 'auto' : 0,
+            opacity: isHovered ? 1 : 0
           }}
           transition={{ duration: 0.3 }}
           className="overflow-hidden"
         >
-          <p className="font-satoshi text-charcoal-lighter mt-4 ml-16 md:ml-20 max-w-2xl leading-relaxed text-sm md:text-base">
+          <p className="font-satoshi text-gray-700 mt-4 ml-16 md:ml-20 max-w-2xl leading-relaxed text-sm md:text-base">
             {experience.description}
           </p>
         </motion.div>
@@ -163,7 +163,7 @@ function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
         initial={{ scaleX: 0 }}
         animate={{ scaleX: isHovered ? 1 : 0 }}
         transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-        className="absolute inset-0 bg-white/50 -z-10 origin-left"
+        className="absolute inset-0 bg-gray-50 -z-10 origin-left"
       />
     </motion.div>
   );
