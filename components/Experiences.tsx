@@ -1,41 +1,55 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import Image from 'next/image';
 import { experiences } from '@/lib/data';
 
 export function Experiences() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
-
   return (
-    <section id="experience" className="relative py-section bg-white">
-      <div className="max-w-5xl mx-auto px-6">
+    <section className="relative min-h-screen bg-dark pt-32 pb-20">
+      {/* Background accent */}
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      
+      {/* Gradient orb */}
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full bg-gold/5 blur-3xl" />
+      
+      <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex items-end justify-between mb-20"
         >
-          <span className="text-tiny text-gray-light uppercase tracking-widest font-medium">
-            Experience
+          <div>
+            <motion.span 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="inline-flex items-center gap-3 mb-4"
+            >
+              <span className="w-8 h-[1px] bg-gold" />
+              <span className="font-mono text-tiny text-gold uppercase tracking-widest">
+                Experience
+              </span>
+            </motion.span>
+            <h2 className="font-display text-display text-white">
+              Where I&apos;ve <span className="text-gradient">worked</span>
+            </h2>
+          </div>
+          <span className="hidden md:block font-mono text-tiny text-white/30">
+            ({String(experiences.length).padStart(2, '0')})
           </span>
-          <h2 className="text-heading text-black mt-2">
-            Where I&apos;ve worked
-          </h2>
         </motion.div>
 
         {/* Experience List */}
-        <div ref={ref} className="space-y-0">
+        <div className="space-y-4">
           {experiences.map((exp, index) => (
             <ExperienceItem
               key={exp.id}
               experience={exp}
               index={index}
-              isInView={isInView}
             />
           ))}
         </div>
@@ -47,76 +61,90 @@ export function Experiences() {
 interface ExperienceItemProps {
   experience: typeof experiences[0];
   index: number;
-  isInView: boolean;
 }
 
-function ExperienceItem({ experience, index, isInView }: ExperienceItemProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+function ExperienceItem({ experience, index }: ExperienceItemProps) {
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
-      className="group border-t border-gray-200 last:border-b"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group relative"
     >
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full py-6 flex items-center gap-5 text-left"
-      >
-        {/* Logo */}
-        <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
-          <Image
-            src={experience.logo}
-            alt={experience.company}
-            fill
-            className="object-cover"
-          />
-        </div>
+      <div className={`
+        relative p-6 md:p-8 rounded-2xl border transition-all duration-500
+        ${isHovered 
+          ? 'bg-dark-200 border-gold/30 shadow-glow' 
+          : 'bg-dark-100 border-white/5'
+        }
+      `}>
+        <div className="flex items-start gap-6">
+          {/* Index number */}
+          <span className="hidden md:block font-mono text-tiny text-white/20 pt-1">
+            {String(index + 1).padStart(2, '0')}
+          </span>
 
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3 flex-wrap">
-            <h3 className="text-body font-medium text-black group-hover:text-gold transition-colors duration-200 truncate">
-              {experience.role}
-            </h3>
-            {experience.isPresent && (
-              <span className="px-2 py-0.5 text-tiny font-medium text-gold-dark bg-gold/10 rounded-full">
-                Present
-              </span>
-            )}
+          {/* Logo */}
+          <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-dark-300 flex-shrink-0">
+            <Image
+              src={experience.logo}
+              alt={experience.company}
+              fill
+              className="object-cover"
+            />
           </div>
-          <p className="text-small text-gray mt-0.5">
-            {experience.company}
-          </p>
+
+          {/* Content */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-4 mb-2">
+              <div>
+                <h3 className="font-display text-subheading text-white group-hover:text-gold transition-colors duration-300">
+                  {experience.role}
+                </h3>
+                <p className="font-sans text-small text-white/50 mt-1">
+                  {experience.company}
+                </p>
+              </div>
+              {experience.isPresent && (
+                <span className="flex items-center gap-2 px-3 py-1.5 text-tiny font-mono text-gold bg-gold/10 rounded-full border border-gold/20">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+                  Now
+                </span>
+              )}
+            </div>
+
+            {/* Description - revealed on hover */}
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ 
+                height: isHovered ? 'auto' : 0,
+                opacity: isHovered ? 1 : 0 
+              }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden"
+            >
+              <p className="text-small text-white/60 leading-relaxed pt-4 border-t border-white/5 mt-4">
+                {experience.description}
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Arrow */}
+          <motion.div
+            animate={{ rotate: isHovered ? 45 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="hidden md:flex items-center justify-center w-10 h-10 rounded-full border border-white/10 group-hover:border-gold/30 transition-colors duration-300"
+          >
+            <svg className="w-4 h-4 text-white/40 group-hover:text-gold transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </motion.div>
         </div>
-
-        {/* Expand icon */}
-        <motion.div
-          animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="w-5 h-5 flex items-center justify-center text-gray-400"
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 4L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </motion.div>
-      </button>
-
-      {/* Description */}
-      <motion.div
-        initial={false}
-        animate={{ 
-          height: isExpanded ? 'auto' : 0,
-          opacity: isExpanded ? 1 : 0 
-        }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="overflow-hidden"
-      >
-        <p className="text-small text-gray leading-relaxed pb-6 pl-[60px]">
-          {experience.description}
-        </p>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

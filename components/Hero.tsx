@@ -1,162 +1,196 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { personalInfo } from '@/lib/data';
-import { useRef } from 'react';
+import { TabType } from '@/app/page';
 
-export function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start'],
-  });
+interface HeroProps {
+  onNavigate: (tab: TabType) => void;
+}
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
-
+export function Hero({ onNavigate }: HeroProps) {
   return (
-    <section
-      ref={containerRef}
-      id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-    >
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-offwhite" />
-      
-      {/* Minimal decorative element */}
-      <motion.div 
-        className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-gold/[0.03] blur-3xl"
-        animate={{ 
-          scale: [1, 1.1, 1],
-          opacity: [0.5, 0.3, 0.5] 
-        }}
-        transition={{ 
-          duration: 8, 
-          repeat: Infinity, 
-          ease: "easeInOut" 
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-dark pt-20">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          className="absolute -top-1/2 -left-1/4 w-[800px] h-[800px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(201, 162, 39, 0.15) 0%, transparent 70%)',
+          }}
+          animate={{
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-1/2 -right-1/4 w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(201, 162, 39, 0.1) 0%, transparent 70%)',
+          }}
+          animate={{
+            x: [0, -30, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      </div>
+
+      {/* Grid pattern overlay */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
         }}
       />
 
       {/* Main Content */}
-      <motion.div
-        style={{ opacity, y }}
-        className="relative z-10 max-w-5xl mx-auto px-6 text-center"
-      >
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+        {/* Top line */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex items-center gap-4 mb-8"
+        >
+          <div className="w-12 h-[1px] bg-gold" />
+          <span className="font-mono text-tiny text-gold uppercase tracking-widest">
+            Portfolio 2025
+          </span>
+        </motion.div>
+
         {/* Name */}
+        <div className="overflow-hidden mb-6">
+          <motion.h1
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="font-display text-hero text-white"
+          >
+            {personalInfo.firstName}
+          </motion.h1>
+        </div>
+        <div className="overflow-hidden mb-12">
+          <motion.h1
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="font-display text-hero text-gradient"
+          >
+            {personalInfo.lastName}
+          </motion.h1>
+        </div>
+
+        {/* Info row */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-6"
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
-          <h1 className="text-display text-black">
-            {personalInfo.firstName}{' '}
-            <span className="gradient-text">{personalInfo.lastName}</span>
-          </h1>
+          <div className="max-w-md">
+            <p className="text-subheading text-gray-400 mb-6">
+              {personalInfo.title}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {personalInfo.interests.map((interest) => (
+                <span
+                  key={interest}
+                  className="px-4 py-2 text-small font-mono text-white/80 border border-white/10 rounded-full hover:border-gold/50 hover:text-gold transition-all duration-300"
+                >
+                  {interest}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Links */}
+          <div className="flex items-center gap-6">
+            <a
+              href={personalInfo.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2 text-small text-white/60 hover:text-gold transition-colors duration-300"
+            >
+              <span className="font-mono uppercase tracking-wider">Li</span>
+              <svg
+                className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+            <a
+              href={personalInfo.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2 text-small text-white/60 hover:text-gold transition-colors duration-300"
+            >
+              <span className="font-mono uppercase tracking-wider">Gh</span>
+              <svg
+                className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+            <a
+              href={`mailto:${personalInfo.email}`}
+              className="group flex items-center gap-2 text-small text-white/60 hover:text-gold transition-colors duration-300"
+            >
+              <span className="font-mono uppercase tracking-wider">Em</span>
+              <svg
+                className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </a>
+          </div>
         </motion.div>
 
-        {/* Tagline */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-subheading text-gray max-w-2xl mx-auto mb-8"
-        >
-          {personalInfo.title}
-        </motion.p>
-
-        {/* Interests */}
+        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center justify-center gap-2 text-small text-gray-light mb-12"
+          transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-wrap gap-4 mt-12"
         >
-          {personalInfo.interests.map((interest, i) => (
-            <span key={interest} className="flex items-center gap-2">
-              <span className="font-mono">{interest}</span>
-              {i < personalInfo.interests.length - 1 && (
-                <span className="w-1 h-1 rounded-full bg-gold" />
-              )}
+          <button
+            onClick={() => onNavigate('projects')}
+            className="group px-6 py-3 bg-gold text-dark font-display font-semibold rounded-full hover:bg-gold-light transition-colors duration-300"
+          >
+            <span className="flex items-center gap-2">
+              View Work
+              <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </span>
-          ))}
-        </motion.div>
-
-        {/* Links */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center justify-center gap-8"
-        >
-          <a
-            href={personalInfo.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-small text-charcoal hover:text-gold transition-colors"
+          </button>
+          <button
+            onClick={() => onNavigate('contact')}
+            className="px-6 py-3 border border-white/20 text-white font-display font-semibold rounded-full hover:border-gold hover:text-gold transition-all duration-300"
           >
-            <span>LinkedIn</span>
-            <svg 
-              className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </a>
-          <a
-            href={personalInfo.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex items-center gap-2 text-small text-charcoal hover:text-gold transition-colors"
-          >
-            <span>GitHub</span>
-            <svg 
-              className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </a>
-          <a
-            href={`mailto:${personalInfo.email}`}
-            className="group flex items-center gap-2 text-small text-charcoal hover:text-gold transition-colors"
-          >
-            <span>Email</span>
-            <svg 
-              className="w-3.5 h-3.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </a>
+            Get in Touch
+          </button>
         </motion.div>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-5 h-8 rounded-full border border-gray-300 flex items-start justify-center p-1.5"
-        >
-          <motion.div 
-            className="w-1 h-1.5 rounded-full bg-gray-400"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

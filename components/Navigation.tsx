@@ -1,40 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { navItems } from '@/lib/data';
+import { TabType } from '@/app/page';
 
-export function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+const navItems = [
+  { name: 'Home', id: 'home' as TabType },
+  { name: 'Experience', id: 'experience' as TabType },
+  { name: 'Projects', id: 'projects' as TabType },
+  { name: 'About', id: 'about' as TabType },
+  { name: 'Contact', id: 'contact' as TabType },
+];
+
+interface NavigationProps {
+  activeTab: TabType;
+  setActiveTab: (tab: TabType) => void;
+}
+
+export function Navigation({ activeTab, setActiveTab }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-
-      const sections = navItems.map(item => item.href.replace('#', ''));
-      const scrollPosition = window.scrollY + 200;
-
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section);
-        if (element && element.offsetTop <= scrollPosition) {
-          setActiveSection(section);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (id: TabType) => {
+    setActiveTab(id);
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   return (
@@ -42,91 +30,81 @@ export function Navigation() {
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="fixed top-0 left-0 right-0 z-50 px-6 py-4"
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 right-0 z-50 py-6"
       >
-        <nav className={`
-          max-w-4xl mx-auto flex items-center justify-between
-          transition-all duration-500 ease-out-expo
-          ${isScrolled 
-            ? 'bg-white/80 backdrop-blur-xl shadow-subtle rounded-full px-6 py-3' 
-            : 'bg-transparent py-2'
-          }
-        `}>
-          {/* Logo */}
-          <motion.a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              handleNavClick('#home');
-            }}
-            className="text-body font-semibold tracking-tight"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span className="text-black">D</span>
-            <span className="text-gold">G</span>
-          </motion.a>
+        <div className="max-w-7xl mx-auto px-6">
+          <nav className="flex items-center justify-between bg-dark-100/80 backdrop-blur-xl border border-white/5 rounded-full px-6 py-3">
+            {/* Logo */}
+            <motion.button
+              onClick={() => handleNavClick('home')}
+              className="font-display text-xl font-bold tracking-tight"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="text-white">D</span>
+              <span className="text-gold">G</span>
+            </motion.button>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.href.replace('#', '');
-              return (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(item.href);
-                  }}
-                  className={`
-                    relative px-4 py-2 text-small font-medium rounded-full
-                    transition-colors duration-200
-                    ${isActive 
-                      ? 'text-black' 
-                      : 'text-gray hover:text-black'
-                    }
-                  `}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-pill"
-                      className="absolute inset-0 bg-offwhite rounded-full"
-                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{item.name}</span>
-                </a>
-              );
-            })}
-          </div>
-
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden relative w-8 h-8 flex items-center justify-center"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <div className="relative w-5 h-4 flex flex-col justify-between">
-              <motion.span
-                animate={isMobileMenuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.2 }}
-                className="w-full h-[1.5px] bg-black origin-center"
-              />
-              <motion.span
-                animate={isMobileMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-                transition={{ duration: 0.2 }}
-                className="w-full h-[1.5px] bg-black"
-              />
-              <motion.span
-                animate={isMobileMenuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.2 }}
-                className="w-full h-[1.5px] bg-black origin-center"
-              />
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center gap-1">
+              {navItems.map((item, index) => {
+                const isActive = activeTab === item.id;
+                return (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id)}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    className={`
+                      relative px-4 py-2 font-mono text-tiny uppercase tracking-widest
+                      transition-colors duration-300
+                      ${isActive 
+                        ? 'text-gold' 
+                        : 'text-white/50 hover:text-white'
+                      }
+                    `}
+                  >
+                    {item.name}
+                    {isActive && (
+                      <motion.div
+                        layoutId="nav-indicator"
+                        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-gold"
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                      />
+                    )}
+                  </motion.button>
+                );
+              })}
             </div>
-          </button>
-        </nav>
+
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden relative w-10 h-10 flex items-center justify-center"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <div className="relative w-6 h-5 flex flex-col justify-between">
+                <motion.span
+                  animate={isMobileMenuOpen ? { rotate: 45, y: 9 } : { rotate: 0, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-full h-[2px] bg-white origin-center"
+                />
+                <motion.span
+                  animate={isMobileMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-full h-[2px] bg-white"
+                />
+                <motion.span
+                  animate={isMobileMenuOpen ? { rotate: -45, y: -9 } : { rotate: 0, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-full h-[2px] bg-white origin-center"
+                />
+              </div>
+            </button>
+          </nav>
+        </div>
       </motion.header>
 
       {/* Mobile Menu */}
@@ -136,32 +114,28 @@ export function Navigation() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-white md:hidden"
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-dark md:hidden pt-24"
           >
-            <nav className="flex flex-col items-center justify-center h-full gap-2">
+            <nav className="flex flex-col items-center justify-center h-full gap-4">
               {navItems.map((item, index) => (
-                <motion.a
-                  key={item.name}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(item.href);
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
+                <motion.button
+                  key={item.id}
+                  onClick={() => handleNavClick(item.id)}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ delay: index * 0.05, duration: 0.3 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ delay: index * 0.05, duration: 0.4 }}
                   className={`
-                    text-heading font-semibold py-3
-                    ${activeSection === item.href.replace('#', '')
+                    font-display text-display
+                    ${activeTab === item.id
                       ? 'text-gold'
-                      : 'text-black'
+                      : 'text-white'
                     }
                   `}
                 >
                   {item.name}
-                </motion.a>
+                </motion.button>
               ))}
             </nav>
           </motion.div>

@@ -176,14 +176,14 @@ export const about = {
   },
   interests: ['Quant Finance', 'AI/ML', 'Software Engineering'],
   personal: [
-    { emoji: '🏋️', title: 'Weightlifting' },
-    { emoji: '🏀', title: 'Basketball' },
-    { emoji: '🎺', title: 'Music', note: 'all-state musician' },
-    { emoji: '🏈', title: 'Football' },
-    { emoji: '🥊', title: 'Boxing' },
-    { emoji: '👟', title: 'Sneakers' },
-    { emoji: '🎬', title: 'Classic Movies' },
-    { emoji: '🏓', title: 'Table Tennis' },
+    { title: 'Weightlifting' },
+    { title: 'Basketball' },
+    { title: 'Music', note: 'all-state musician' },
+    { title: 'Football' },
+    { title: 'Boxing' },
+    { title: 'Sneakers' },
+    { title: 'Classic Movies' },
+    { title: 'Table Tennis' },
   ],
 };
 
