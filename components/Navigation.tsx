@@ -40,32 +40,39 @@ export function Navigation() {
   return (
     <>
       <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'py-4' : 'py-6'
-          }`}
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 right-0 z-50 px-6 py-4"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
-          <nav className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'bg-white/80 backdrop-blur-lg rounded-full px-6 py-3 shadow-sm' : ''
-            }`}>
-            {/* Logo */}
-            <motion.a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick('#home');
-              }}
-              className="font-clash font-bold text-xl"
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className="text-black">D</span>
-              <span className="text-gold">G</span>
-            </motion.a>
+        <nav className={`
+          max-w-4xl mx-auto flex items-center justify-between
+          transition-all duration-500 ease-out-expo
+          ${isScrolled 
+            ? 'bg-white/80 backdrop-blur-xl shadow-subtle rounded-full px-6 py-3' 
+            : 'bg-transparent py-2'
+          }
+        `}>
+          {/* Logo */}
+          <motion.a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('#home');
+            }}
+            className="text-body font-semibold tracking-tight"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="text-black">D</span>
+            <span className="text-gold">G</span>
+          </motion.a>
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-8">
-              {navItems.map((item) => (
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {navItems.map((item) => {
+              const isActive = activeSection === item.href.replace('#', '');
+              return (
                 <a
                   key={item.name}
                   href={item.href}
@@ -73,55 +80,66 @@ export function Navigation() {
                     e.preventDefault();
                     handleNavClick(item.href);
                   }}
-                  className={`relative font-satoshi text-sm transition-colors duration-300 ${activeSection === item.href.replace('#', '')
-                      ? 'text-gold'
-                      : 'text-black-lighter hover:text-black'
-                    }`}
+                  className={`
+                    relative px-4 py-2 text-small font-medium rounded-full
+                    transition-colors duration-200
+                    ${isActive 
+                      ? 'text-black' 
+                      : 'text-gray hover:text-black'
+                    }
+                  `}
                 >
-                  {item.name}
-                  {activeSection === item.href.replace('#', '') && (
+                  {isActive && (
                     <motion.div
-                      layoutId="activeIndicator"
-                      className="absolute -bottom-1 left-0 right-0 h-px bg-gold"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      layoutId="nav-pill"
+                      className="absolute inset-0 bg-offwhite rounded-full"
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
+                  <span className="relative z-10">{item.name}</span>
                 </a>
-              ))}
-            </div>
+              );
+            })}
+          </div>
 
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden flex flex-col gap-1.5 p-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden relative w-8 h-8 flex items-center justify-center"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <div className="relative w-5 h-4 flex flex-col justify-between">
               <motion.span
-                animate={isMobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-                className="w-6 h-0.5 bg-black"
+                animate={isMobileMenuOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="w-full h-[1.5px] bg-black origin-center"
               />
               <motion.span
-                animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-6 h-0.5 bg-black"
+                animate={isMobileMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                transition={{ duration: 0.2 }}
+                className="w-full h-[1.5px] bg-black"
               />
               <motion.span
-                animate={isMobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-                className="w-6 h-0.5 bg-black"
+                animate={isMobileMenuOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="w-full h-[1.5px] bg-black origin-center"
               />
-            </button>
-          </nav>
-        </div>
+            </div>
+          </button>
+        </nav>
       </motion.header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-white md:hidden"
           >
-            <nav className="flex flex-col gap-4">
+            <nav className="flex flex-col items-center justify-center h-full gap-2">
               {navItems.map((item, index) => (
                 <motion.a
                   key={item.name}
@@ -130,13 +148,17 @@ export function Navigation() {
                     e.preventDefault();
                     handleNavClick(item.href);
                   }}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className={`font-clash text-3xl font-medium py-2 ${activeSection === item.href.replace('#', '')
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ delay: index * 0.05, duration: 0.3 }}
+                  className={`
+                    text-heading font-semibold py-3
+                    ${activeSection === item.href.replace('#', '')
                       ? 'text-gold'
                       : 'text-black'
-                    }`}
+                    }
+                  `}
                 >
                   {item.name}
                 </motion.a>

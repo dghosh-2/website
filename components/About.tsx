@@ -1,219 +1,143 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
-import Image from 'next/image';
+import { useRef } from 'react';
 import { about } from '@/lib/data';
-
-function useTypingEffect(text: string, speed: number = 50, delay: number = 0, trigger: boolean = true) {
-  const [displayedText, setDisplayedText] = useState('');
-  const [isComplete, setIsComplete] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  useEffect(() => {
-    if (!trigger) return;
-    const startTimeout = setTimeout(() => {
-      setHasStarted(true);
-    }, delay);
-    return () => clearTimeout(startTimeout);
-  }, [delay, trigger]);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-
-    if (displayedText.length < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayedText(text.slice(0, displayedText.length + 1));
-      }, speed);
-      return () => clearTimeout(timeout);
-    } else {
-      setIsComplete(true);
-    }
-  }, [hasStarted, displayedText, text, speed]);
-
-  return { displayedText, isComplete, hasStarted };
-}
 
 export function About() {
   const ref = useRef(null);
-  const headerRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const headerInView = useInView(headerRef, { once: true, margin: '-50px' });
-
-  const titleTyping = useTypingEffect("A bit about me", 50, 200, headerInView);
 
   return (
-    <section id="about" className="relative py-32 bg-white">
-      <div ref={ref} className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20">
+    <section id="about" className="relative py-section bg-white">
+      <div ref={ref} className="max-w-5xl mx-auto px-6">
         {/* Section Header */}
-        <div ref={headerRef} className="mb-16 overflow-hidden">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="block font-satoshi text-sm text-gray-500 tracking-widest uppercase mb-2"
-          >
-            About
-          </motion.span>
-          <h2 className="font-clash font-bold text-4xl md:text-5xl lg:text-6xl text-black">
-            {titleTyping.displayedText}
-            {titleTyping.hasStarted && !titleTyping.isComplete && (
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
-                className="inline-block w-[4px] h-[0.75em] bg-black ml-2 align-middle"
-              />
-            )}
-          </h2>
-        </div>
-
-        {/* Interests at the top as text - same color */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-12"
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-16"
         >
-          <p className="font-satoshi text-lg text-gray-600">
-            Interested in {about.interests.join(', ')}.
-          </p>
+          <span className="text-tiny text-gray-light uppercase tracking-widest font-medium">
+            About
+          </span>
+          <h2 className="text-heading text-black mt-2">
+            A bit about me
+          </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Left Column - Education */}
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+          {/* Education */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-6"
           >
-            <div>
-              <motion.h3
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="font-clash font-semibold text-2xl text-black mb-4"
-              >
-                Education
-              </motion.h3>
-
-              {/* CMU */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="space-y-1 mb-4"
-              >
-                <p className="font-satoshi text-xl text-black">
+            <h3 className="text-tiny text-gray-light uppercase tracking-widest font-medium">
+              Education
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <p className="text-body font-medium text-black">
                   {about.academic.school}
                 </p>
-                <p className="font-satoshi text-gray-600">
+                <p className="text-small text-gray mt-1">
                   {about.academic.degree}
                 </p>
-                <p className="font-satoshi text-sm text-gray-500">
+                <p className="text-tiny text-gray-light mt-0.5">
                   {about.academic.location}
                 </p>
-              </motion.div>
-
-              {/* Clubs */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.45 }}
-                className="space-y-1"
-              >
+              </div>
+              
+              <div className="pt-2 space-y-1.5">
                 {about.academic.clubs.map((club) => (
-                  <p key={club.name} className="font-satoshi text-sm text-gray-600">
-                    {club.name} {club.note && <span className="text-gray-500">({club.note})</span>}
+                  <p key={club.name} className="text-small text-gray">
+                    {club.name}
+                    {club.note && (
+                      <span className="text-tiny text-gray-light ml-1">
+                        ({club.note})
+                      </span>
+                    )}
                   </p>
                 ))}
-              </motion.div>
-
-              {/* High School */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="font-satoshi text-sm text-gray-500 mt-4"
-              >
-                Previously: {about.academic.highSchool}
-              </motion.p>
+              </div>
             </div>
-
-            {/* Relevant Coursework */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: 0.55 }}
-            >
-              <h4 className="font-clash font-medium text-lg text-black mb-3">
-                Relevant Coursework
-              </h4>
-              <div className="space-y-3">
-                <div>
-                  <p className="font-satoshi text-xs text-gray-500 uppercase tracking-wider mb-1">Mathematics</p>
-                  <p className="font-mono text-sm text-gray-700">
-                    {about.academic.coursework.math.join(' · ')}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-satoshi text-xs text-gray-500 uppercase tracking-wider mb-1">Computer Science</p>
-                  <p className="font-mono text-sm text-gray-700">
-                    {about.academic.coursework.cs.join(' · ')}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Beyond Work - moved under education */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <h4 className="font-clash font-medium text-lg text-black mb-3">
-                Beyond work
-              </h4>
-              <div className="space-y-2">
-                {about.personal.map((item, index) => (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-                    transition={{ duration: 0.3, delay: 0.65 + index * 0.05 }}
-                    className="flex items-center gap-3"
-                  >
-                    <span className="text-lg">{item.emoji}</span>
-                    <span className="font-satoshi text-sm text-gray-700">
-                      {item.title}
-                      {item.note && <span className="text-gray-500"> ({item.note})</span>}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
           </motion.div>
 
-          {/* Right Column - CMU Logo */}
+          {/* Coursework */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="hidden lg:block"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-6"
           >
-            <div className="relative h-full flex items-center justify-center">
-              {/* CMU Logo - double border (black + gold) */}
-              <div className="relative w-48 h-48 rounded-full border-2 border-black p-1">
-                <div className="w-full h-full rounded-full border-2 border-gold overflow-hidden">
-                  <Image
-                    src="/CMULOGO.jpg"
-                    alt="Carnegie Mellon University"
-                    fill
-                    className="object-cover"
-                  />
+            <h3 className="text-tiny text-gray-light uppercase tracking-widest font-medium">
+              Coursework
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <p className="text-tiny text-gold font-medium uppercase tracking-wider mb-2">
+                  Mathematics
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {about.academic.coursework.math.map((course) => (
+                    <span
+                      key={course}
+                      className="px-2 py-1 text-tiny font-mono text-gray bg-gray-100 rounded"
+                    >
+                      {course}
+                    </span>
+                  ))}
                 </div>
               </div>
+              <div>
+                <p className="text-tiny text-gold font-medium uppercase tracking-wider mb-2">
+                  Computer Science
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {about.academic.coursework.cs.map((course) => (
+                    <span
+                      key={course}
+                      className="px-2 py-1 text-tiny font-mono text-gray bg-gray-100 rounded"
+                    >
+                      {course}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Interests */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="space-y-6"
+          >
+            <h3 className="text-tiny text-gray-light uppercase tracking-widest font-medium">
+              Beyond Work
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              {about.personal.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                  transition={{ duration: 0.3, delay: 0.4 + index * 0.03 }}
+                  className="flex items-center gap-2 group"
+                >
+                  <span className="text-base group-hover:scale-110 transition-transform duration-200">
+                    {item.emoji}
+                  </span>
+                  <span className="text-small text-gray">
+                    {item.title}
+                  </span>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </div>

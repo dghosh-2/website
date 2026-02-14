@@ -9,32 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: '#FFFFFF',
-          50: '#FAFAFA',
-          100: '#F5F5F5',
-        },
+        white: '#FFFFFF',
+        offwhite: '#FAFAFA',
+        cream: '#F5F5F0',
         gold: {
-          DEFAULT: '#FFD700',
-          light: '#FFED4E',
-          dark: '#D4AF37',
-          50: '#FFFDF0',
-          100: '#FFFADB',
-          200: '#FFF5B8',
-          300: '#FFEF94',
-          400: '#FFE970',
-          500: '#FFD700',
-          600: '#E6C200',
-          700: '#D4AF37',
-          800: '#B8960C',
-          900: '#8B7209',
+          DEFAULT: '#C9A227',
+          light: '#E8D48A',
+          dark: '#A68A1F',
         },
         black: {
-          DEFAULT: '#000000',
+          DEFAULT: '#0A0A0A',
           light: '#1A1A1A',
-          lighter: '#333333',
         },
+        charcoal: '#1A1A1A',
         gray: {
+          DEFAULT: '#6B6B6B',
+          light: '#9A9A9A',
           50: '#FAFAFA',
           100: '#F5F5F5',
           200: '#E5E5E5',
@@ -48,46 +38,68 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Courier New', 'monospace'],
-        mono: ['Courier New', 'monospace'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        mono: ['JetBrains Mono', 'SF Mono', 'monospace'],
+      },
+      fontSize: {
+        'display': ['clamp(3rem, 8vw, 6rem)', { lineHeight: '1', letterSpacing: '-0.04em', fontWeight: '600' }],
+        'heading': ['clamp(2rem, 5vw, 3.5rem)', { lineHeight: '1.1', letterSpacing: '-0.03em', fontWeight: '600' }],
+        'subheading': ['clamp(1.25rem, 2vw, 1.5rem)', { lineHeight: '1.3', letterSpacing: '-0.02em', fontWeight: '500' }],
+        'body': ['1rem', { lineHeight: '1.6', letterSpacing: '-0.01em' }],
+        'small': ['0.875rem', { lineHeight: '1.5', letterSpacing: '0' }],
+        'tiny': ['0.75rem', { lineHeight: '1.4', letterSpacing: '0.02em' }],
+      },
+      spacing: {
+        'section': 'clamp(4rem, 10vw, 8rem)',
       },
       animation: {
+        'fade-in': 'fadeIn 0.6s ease-out forwards',
+        'fade-up': 'fadeUp 0.6s ease-out forwards',
+        'scale-in': 'scaleIn 0.5s ease-out forwards',
+        'slide-in': 'slideIn 0.5s ease-out forwards',
+        'pulse-subtle': 'pulseSubtle 3s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
-        'float-slow': 'float 8s ease-in-out infinite',
-        'float-slower': 'float 10s ease-in-out infinite',
-        'pulse-slow': 'pulse 3s ease-in-out infinite',
-        'spin-slow': 'spin 20s linear infinite',
-        'gradient': 'gradient 8s ease infinite',
-        'shimmer': 'shimmer 2s linear infinite',
-        'bounce-slow': 'bounce 3s infinite',
       },
       keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        fadeUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        scaleIn: {
+          '0%': { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        slideIn: {
+          '0%': { opacity: '0', transform: 'translateX(-10px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        pulseSubtle: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' },
+        },
         float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        gradient: {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
       },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gold-shimmer': 'linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent)',
+      transitionTimingFunction: {
+        'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
+        'out-back': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
       },
       boxShadow: {
-        'gold': '0 0 20px rgba(255, 215, 0, 0.3)',
-        'gold-lg': '0 0 40px rgba(255, 215, 0, 0.4)',
-        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'card-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'subtle': '0 1px 2px rgba(0, 0, 0, 0.04)',
+        'soft': '0 4px 20px rgba(0, 0, 0, 0.06)',
+        'card': '0 0 0 1px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04)',
+        'card-hover': '0 0 0 1px rgba(0, 0, 0, 0.08), 0 8px 30px rgba(0, 0, 0, 0.08)',
       },
-      backdropBlur: {
-        xs: '2px',
+      borderRadius: {
+        'xl': '1rem',
+        '2xl': '1.5rem',
+        '3xl': '2rem',
       },
     },
   },
@@ -95,5 +107,3 @@ const config: Config = {
 };
 
 export default config;
-
-

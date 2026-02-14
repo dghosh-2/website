@@ -2,25 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Google Fonts */
-@import url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&f[]=satoshi@300,400,500,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+/* Modern font stack - Inter for clean, modern feel */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  /* Colors */
-  --color-primary: #FFFFFF;
-  --color-primary-50: #FAFAFA;
-  --color-gold: #FFD700;
-  --color-gold-light: #FFED4E;
-  --color-gold-dark: #D4AF37;
-  --color-black: #000000;
-  --color-black-light: #1A1A1A;
-  --color-black-lighter: #333333;
+  /* Colors - refined palette */
+  --color-white: #FFFFFF;
+  --color-off-white: #FAFAFA;
+  --color-cream: #F5F5F0;
+  --color-gold: #C9A227;
+  --color-gold-light: #E8D48A;
+  --color-gold-dark: #A68A1F;
+  --color-black: #0A0A0A;
+  --color-charcoal: #1A1A1A;
+  --color-gray: #6B6B6B;
+  --color-gray-light: #9A9A9A;
+  --color-border: rgba(0, 0, 0, 0.08);
 
-  /* Fonts */
-  --font-clash: 'Clash Display', sans-serif;
-  --font-satoshi: 'Satoshi', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'IBM Plex Mono', monospace;
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  
+  /* Spacing */
+  --section-padding: clamp(4rem, 10vw, 8rem);
 }
 
 * {
@@ -31,20 +36,23 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  font-family: 'Courier New', monospace;
-  background: var(--color-primary);
+  font-family: var(--font-sans);
+  background: var(--color-white);
   color: var(--color-black);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
 }
 
-/* Custom scrollbar - minimal */
+/* Ultra-minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -52,12 +60,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 /* Selection */
@@ -66,25 +74,32 @@ body {
   color: var(--color-black);
 }
 
-/* Font classes */
-.font-sans {
-  font-family: 'Courier New', monospace;
-}
-
-.font-mono {
-  font-family: 'Courier New', monospace;
-}
-
 /* Focus styles */
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--color-gold);
-  outline-offset: 2px;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Smooth link transitions */
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+/* Text balance for headings */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+  letter-spacing: -0.03em;
+}
+
+/* Paragraph optimization */
+p {
+  text-wrap: pretty;
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
@@ -95,5 +110,27 @@ button:focus-visible {
 
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-gold-dark) 0%, var(--color-gold) 50%, var(--color-gold-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
   }
 }
