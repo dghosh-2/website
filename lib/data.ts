@@ -170,7 +170,7 @@ export const about = {
       { name: 'Quant Club' },
     ],
     coursework: {
-      math: ['3D Calculus', 'Matrices & Linear Algebra', 'Game Theory', 'Discrete Math', 'Counting & Graph Theory'],
+      math: ['3D Calculus', 'Matrices & Linear Algebra', 'Game Theory', 'Discrete Math', 'Counting & Graph Theory', 'Math Finance', 'Multivariate Analysis', 'Integration & Approximation'],
       cs: ['Fundamentals of Programming', 'Data Structures & Algorithms', 'Functional Programming', 'Computer Systems', 'Probability & Computing'],
     },
   },

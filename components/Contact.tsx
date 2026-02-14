@@ -3,25 +3,43 @@
 import { motion } from 'framer-motion';
 import { personalInfo } from '@/lib/data';
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.3 } }
+};
+
 export function Contact() {
   return (
     <section className="min-h-screen pt-12 flex items-center">
       <div className="max-w-3xl mx-auto px-6 py-20 w-full">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          variants={container}
+          initial="hidden"
+          animate="show"
         >
-          <p className="text-xs text-gray-light mb-8">contact</p>
+          <motion.p variants={item} className="text-xs text-gray-light mb-8">
+            contact
+          </motion.p>
 
-          <p className="text-gray mb-6">
+          <motion.p variants={item} className="text-gray mb-6">
             open to opportunities and collaborations.
-          </p>
+          </motion.p>
 
-          <div className="space-y-2">
+          <motion.div variants={item} className="space-y-2">
             <p>
               <span className="text-gray-light text-sm">email </span>
-              <a href={`mailto:${personalInfo.email}`}>
+              <a 
+                href={`mailto:${personalInfo.email}`}
+                className="hover:translate-x-0.5 inline-block transition-transform"
+              >
                 {personalInfo.email}
               </a>
             </p>
@@ -31,6 +49,7 @@ export function Contact() {
                 href={personalInfo.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="hover:translate-x-0.5 inline-block transition-transform"
               >
                 {personalInfo.github.replace('https://', '')}
               </a>
@@ -41,15 +60,16 @@ export function Contact() {
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="hover:translate-x-0.5 inline-block transition-transform"
               >
                 {personalInfo.linkedin.replace('https://www.', '')}
               </a>
             </p>
-          </div>
+          </motion.div>
 
-          <p className="text-xs text-gray-light mt-12">
+          <motion.p variants={item} className="text-xs text-gray-light mt-12">
             {new Date().getFullYear()} · dhruv ghosh
-          </p>
+          </motion.p>
         </motion.div>
       </div>
     </section>
