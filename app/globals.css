@@ -2,26 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Modern fonts - Space Grotesk for that tech-forward feel, plus Syne for bold headings */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+/* Clean monospace font stack */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap');
 
 :root {
-  /* Colors - refined palette */
   --color-white: #FFFFFF;
-  --color-off-white: #F8F8F6;
-  --color-cream: #F0EDE6;
-  --color-gold: #C9A227;
-  --color-gold-light: #E8D48A;
-  --color-gold-dark: #A68A1F;
-  --color-black: #0A0A0A;
-  --color-charcoal: #1A1A1A;
-  --color-gray: #6B6B6B;
-  --color-gray-light: #9A9A9A;
-
-  /* Typography */
-  --font-display: 'Syne', sans-serif;
-  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --color-bg: #FAFAFA;
+  --color-black: #171717;
+  --color-gray: #6B7280;
+  --color-gray-light: #9CA3AF;
+  --color-blue: #2563EB;
+  --color-blue-light: #3B82F6;
+  --color-border: #E5E7EB;
+  
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace;
 }
 
 * {
@@ -32,17 +26,15 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
 }
 
 body {
-  font-family: var(--font-sans);
-  background: var(--color-black);
-  color: var(--color-white);
-  overflow-x: hidden;
+  font-family: var(--font-mono);
+  background: var(--color-white);
+  color: var(--color-black);
+  font-size: 14px;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
 }
 
 /* Minimal scrollbar */
@@ -51,76 +43,33 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-black);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--color-border);
   border-radius: 3px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-/* Selection */
 ::selection {
-  background: var(--color-gold);
-  color: var(--color-black);
+  background: var(--color-blue);
+  color: white;
 }
 
-/* Focus styles */
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 4px;
-  border-radius: 2px;
+a {
+  color: var(--color-blue);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
 }
 
-/* Text balance for headings */
-h1, h2, h3, h4, h5, h6 {
-  text-wrap: balance;
-  font-family: var(--font-display);
+a:hover {
+  opacity: 0.7;
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* Custom utility classes */
-@layer utilities {
-  .font-display {
-    font-family: var(--font-display);
-  }
-  
-  .font-sans {
-    font-family: var(--font-sans);
-  }
-  
-  .font-mono {
-    font-family: var(--font-mono);
-  }
-  
-  .text-gradient {
-    background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 50%, var(--color-gold-dark) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .bg-noise {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
   }
 }

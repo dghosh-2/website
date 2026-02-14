@@ -32,18 +32,16 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen bg-dark">
-      {/* Navigation */}
+    <main className="min-h-screen bg-white">
       <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
       
-      {/* Main Content */}
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
         >
           {renderContent()}
         </motion.div>
