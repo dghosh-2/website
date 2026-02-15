@@ -1,99 +1,147 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import { projects } from '@/lib/data';
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08 }
-  }
-};
+function useTypingEffect(text: string, speed: number = 40, delay: number = 0, enabled: boolean = true) {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
 
-const item = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4 } }
-};
+  useEffect(() => {
+    if (!enabled) return;
+    setDisplayedText('');
+    setIsComplete(false);
+    
+    let timeout: NodeJS.Timeout;
+    const startTyping = () => {
+      let i = 0;
+      const type = () => {
+        if (i < text.length) {
+          setDisplayedText(text.slice(0, i + 1));
+          i++;
+          timeout = setTimeout(type, speed + Math.random() * 15);
+        } else {
+          setIsComplete(true);
+        }
+      };
+      type();
+    };
+    timeout = setTimeout(startTyping, delay);
+    return () => clearTimeout(timeout);
+  }, [text, speed, delay, enabled]);
+
+  return { displayedText, isComplete };
+}
+
+function Cursor() {
+  return (
+    <motion.span
+      animate={{ opacity: [1, 0] }}
+      transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
+      className="w-2 h-4 bg-black inline-block ml-0.5"
+    />
+  );
+}
 
 export function Projects() {
+  const [showContent, setShowContent] = useState(false);
+  const cmd = useTypingEffect('ls -la ./projects && cat README.md', 35, 300, true);
+
+  useEffect(() => {
+    if (cmd.isComplete) setTimeout(() => setShowContent(true), 200);
+  }, [cmd.isComplete]);
+
   return (
     <section className="min-h-screen pt-12">
-      <div className="max-w-3xl mx-auto px-6 py-20">
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <p className="text-xs text-gray-light mb-8">projects</p>
+      <div className="max-w-3xl mx-auto px-6 py-20 font-mono text-sm">
+        
+        {/* Command */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2">
+            <span className="text-green-600">➜</span>
+            <span className="text-blue">~/projects</span>
+            <span className="text-black">{cmd.displayedText}</span>
+            {!cmd.isComplete && <Cursor />}
+          </div>
+        </div>
 
+        {/* Output */}
+        {showContent && (
           <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="space-y-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           >
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
-                variants={item}
-                className="group"
+                initial={{ opacity: 0, x: -4 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="mb-8 pb-6 border-b border-gray-border last:border-0"
               >
-                <div className="flex items-start justify-between gap-4 mb-2">
-                  <div>
-                    <p className="text-black group-hover:text-blue transition-colors">
-                      {project.name}
-                      {project.deployed && (
-                        <span className="ml-2 text-xs text-green-600">live</span>
-                      )}
-                    </p>
-                    <p className="text-sm text-gray">{project.tagline}</p>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 text-sm shrink-0">
-                    {project.deployUrl && (
-                      <a
-                        href={project.deployUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:translate-x-0.5 transition-transform"
+                {/* Project header like a file listing */}
+                <div className="flex items-center gap-4 mb-2">
+                  <span className="text-gray-light">drwxr-xr-x</span>
+                  <span className="text-black">{project.name}/</span>
+                  {project.deployed && (
+                    <span className="text-green-600 text-xs">● live</span>
+                  )}
+                </div>
+
+                {/* Description as README content */}
+                <div className="ml-4 mb-3">
+                  <p className="text-gray-light"># {project.tagline}</p>
+                  <p className="text-gray mt-1">{project.description}</p>
+                </div>
+
+                {/* Tech stack as package.json deps */}
+                <div className="ml-4 mb-3">
+                  <p className="text-gray-light text-xs mb-1">// dependencies</p>
+                  <div className="flex flex-wrap gap-2">
+                    {[...project.frontend, ...project.backend].map((tech) => (
+                      <span
+                        key={tech}
+                        className="text-xs text-blue"
                       >
-                        view
-                      </a>
-                    )}
+                        &quot;{tech.toLowerCase()}&quot;
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Links */}
+                <div className="ml-4 flex gap-4 text-xs">
+                  {project.deployUrl && (
                     <a
-                      href={project.githubUrl}
+                      href={project.deployUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray hover:text-blue hover:translate-x-0.5 transition-all"
+                      className="text-blue hover:underline"
                     >
-                      src
+                      [deploy]
                     </a>
-                  </div>
+                  )}
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray hover:text-blue"
+                  >
+                    [source]
+                  </a>
                 </div>
-
-                <p className="text-sm text-gray-light leading-relaxed mb-3">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2">
-                  {[...project.frontend, ...project.backend].map((tech) => (
-                    <span
-                      key={tech}
-                      className="text-xs text-gray px-2 py-0.5 border border-gray-border rounded hover:border-blue hover:text-blue transition-colors"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {index < projects.length - 1 && (
-                  <div className="border-b border-gray-border mt-8" />
-                )}
               </motion.div>
             ))}
+
+            {/* Next prompt */}
+            <div className="flex items-center gap-2 mt-6">
+              <span className="text-green-600">➜</span>
+              <span className="text-blue">~/projects</span>
+              <Cursor />
+            </div>
           </motion.div>
-        </motion.div>
+        )}
       </div>
     </section>
   );
