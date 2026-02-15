@@ -169,6 +169,7 @@ export function About() {
                       className="text-blue"
                     >
                       {item.title.toLowerCase()}
+                      {item.note && <span className="text-gray"> ({item.note})</span>}
                     </motion.span>
                   ))}
                 </div>
