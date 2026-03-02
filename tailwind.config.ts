@@ -31,14 +31,9 @@ const config: Config = {
         lg: ['16px', '1.6'],
       },
       animation: {
-        'blink': 'blink 1s step-end infinite',
         'fade': 'fade 0.3s ease-out',
       },
       keyframes: {
-        blink: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0' },
-        },
         fade: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

@@ -12,7 +12,7 @@ function useTypingEffect(text: string, speed: number = 40, delay: number = 0, en
     if (!enabled) return;
     setDisplayedText('');
     setIsComplete(false);
-    
+
     let timeout: NodeJS.Timeout;
     const startTyping = () => {
       let i = 0;
@@ -34,19 +34,10 @@ function useTypingEffect(text: string, speed: number = 40, delay: number = 0, en
   return { displayedText, isComplete };
 }
 
-function Cursor() {
-  return (
-    <motion.span
-      animate={{ opacity: [1, 0] }}
-      transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
-      className="w-2 h-4 bg-black inline-block ml-0.5"
-    />
-  );
-}
 
 export function About() {
   const [step, setStep] = useState(0);
-  
+
   const cmd1 = useTypingEffect('cat ~/.profile', 45, 300, step === 0);
   const cmd2 = useTypingEffect('cat courses.txt', 45, 200, step === 1);
   const cmd3 = useTypingEffect('echo $INTERESTS', 45, 200, step === 2);
@@ -59,14 +50,13 @@ export function About() {
   return (
     <section className="min-h-screen pt-12">
       <div className="max-w-3xl mx-auto px-6 py-20 font-mono text-sm">
-        
+
         {/* Command 1: Profile/Education */}
         <div className="mb-6">
           <div className="flex items-center gap-2">
             <span className="text-green-600">➜</span>
             <span className="text-blue">~/about</span>
             <span className="text-black">{cmd1.displayedText}</span>
-            {step === 0 && !cmd1.isComplete && <Cursor />}
           </div>
 
           {cmd1.isComplete && (
@@ -79,7 +69,7 @@ export function About() {
               <p className="text-black mt-1">{about.academic.school}</p>
               <p className="text-gray">{about.academic.degree}</p>
               <p className="text-gray-light text-xs mt-1">{about.academic.location}</p>
-              
+
               <div className="mt-3">
                 <p className="text-gray-light"># clubs</p>
                 {about.academic.clubs.map((club) => (
@@ -100,7 +90,6 @@ export function About() {
               <span className="text-green-600">➜</span>
               <span className="text-blue">~/about</span>
               <span className="text-black">{cmd2.displayedText}</span>
-              {step === 1 && !cmd2.isComplete && <Cursor />}
             </div>
 
             {cmd2.isComplete && (
@@ -123,7 +112,7 @@ export function About() {
                     </motion.span>
                   ))}
                 </div>
-                
+
                 <p className="text-gray-light mt-3"># cs</p>
                 <div className="flex flex-wrap gap-x-2 gap-y-1 mt-1">
                   {about.academic.coursework.cs.map((course, idx) => (
@@ -150,7 +139,6 @@ export function About() {
               <span className="text-green-600">➜</span>
               <span className="text-blue">~/about</span>
               <span className="text-black">{cmd3.displayedText}</span>
-              {step === 2 && !cmd3.isComplete && <Cursor />}
             </div>
 
             {cmd3.isComplete && (
@@ -197,7 +185,6 @@ export function About() {
           >
             <span className="text-green-600">➜</span>
             <span className="text-blue">~/about</span>
-            <Cursor />
           </motion.div>
         )}
       </div>

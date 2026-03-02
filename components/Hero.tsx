@@ -16,11 +16,11 @@ function useTypingEffect(text: string, speed: number = 50, delay: number = 0, en
 
   useEffect(() => {
     if (!enabled) return;
-    
+
     let timeout: NodeJS.Timeout;
     setDisplayedText('');
     setIsComplete(false);
-    
+
     const startTyping = () => {
       let i = 0;
       const type = () => {
@@ -60,14 +60,13 @@ export function Hero({ onNavigate }: HeroProps) {
   return (
     <section className="min-h-screen pt-12 flex items-center">
       <div className="max-w-3xl mx-auto px-6 py-20 w-full font-mono text-sm">
-        
+
         {/* Command 1: whoami */}
         <div className="mb-6">
           <div className="flex items-center gap-2">
             <span className="text-green-600">➜</span>
             <span className="text-blue">~</span>
             <span className="text-black">{cmd1.displayedText}</span>
-            {step === 0 && !cmd1.isComplete && <Cursor />}
           </div>
 
           {cmd1.isComplete && (
@@ -90,7 +89,6 @@ export function Hero({ onNavigate }: HeroProps) {
               <span className="text-green-600">➜</span>
               <span className="text-blue">~</span>
               <span className="text-black">{cmd2.displayedText}</span>
-              {step === 1 && !cmd2.isComplete && <Cursor />}
             </div>
 
             {cmd2.isComplete && (
@@ -126,7 +124,6 @@ export function Hero({ onNavigate }: HeroProps) {
               <span className="text-green-600">➜</span>
               <span className="text-blue">~</span>
               <span className="text-black">{cmd3.displayedText}</span>
-              {step === 2 && !cmd3.isComplete && <Cursor />}
             </div>
 
             {cmd3.isComplete && (
@@ -169,7 +166,6 @@ export function Hero({ onNavigate }: HeroProps) {
               <span className="text-green-600">➜</span>
               <span className="text-blue">~</span>
               <span className="text-black">{cmd4.displayedText}</span>
-              {step === 3 && !cmd4.isComplete && <Cursor />}
             </div>
 
             {cmd4.isComplete && (
@@ -214,7 +210,6 @@ export function Hero({ onNavigate }: HeroProps) {
             <div className="flex items-center gap-2 mb-8">
               <span className="text-green-600">➜</span>
               <span className="text-blue">~</span>
-              <Cursor />
             </div>
 
             <div className="border-t border-gray-border pt-4 flex items-center justify-between text-xs text-gray-light">
@@ -226,15 +221,5 @@ export function Hero({ onNavigate }: HeroProps) {
         )}
       </div>
     </section>
-  );
-}
-
-function Cursor() {
-  return (
-    <motion.span
-      animate={{ opacity: [1, 0] }}
-      transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
-      className="w-2 h-4 bg-black inline-block ml-0.5"
-    />
   );
 }

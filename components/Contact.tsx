@@ -12,7 +12,7 @@ function useTypingEffect(text: string, speed: number = 40, delay: number = 0, en
     if (!enabled) return;
     setDisplayedText('');
     setIsComplete(false);
-    
+
     let timeout: NodeJS.Timeout;
     const startTyping = () => {
       let i = 0;
@@ -34,15 +34,6 @@ function useTypingEffect(text: string, speed: number = 40, delay: number = 0, en
   return { displayedText, isComplete };
 }
 
-function Cursor() {
-  return (
-    <motion.span
-      animate={{ opacity: [1, 0] }}
-      transition={{ duration: 0.4, repeat: Infinity, repeatType: 'reverse' }}
-      className="w-2 h-4 bg-black inline-block ml-0.5"
-    />
-  );
-}
 
 export function Contact() {
   const [showContent, setShowContent] = useState(false);
@@ -55,14 +46,13 @@ export function Contact() {
   return (
     <section className="min-h-screen pt-12 flex items-center">
       <div className="max-w-3xl mx-auto px-6 py-20 w-full font-mono text-sm">
-        
+
         {/* Command */}
         <div className="mb-6">
           <div className="flex items-center gap-2">
             <span className="text-green-600">➜</span>
             <span className="text-blue">~/contact</span>
             <span className="text-black">{cmd.displayedText}</span>
-            {!cmd.isComplete && <Cursor />}
           </div>
         </div>
 
@@ -75,7 +65,7 @@ export function Contact() {
           >
             <p className="text-gray-light"># reach out</p>
             <p className="text-gray mt-2">status: open to opportunities</p>
-            
+
             <div className="mt-4">
               <p className="text-gray-light">contact:</p>
               <motion.p
@@ -132,7 +122,6 @@ export function Contact() {
               <div className="flex items-center gap-2">
                 <span className="text-green-600">➜</span>
                 <span className="text-blue">~/contact</span>
-                <Cursor />
               </div>
 
               <div className="border-t border-gray-border mt-8 pt-4 text-xs text-gray-light">
