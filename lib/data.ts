@@ -14,14 +14,6 @@ export const personalInfo = {
 export const experiences = [
   {
     id: 1,
-    role: 'Incoming Software Engineering Intern',
-    company: 'Magnetar Capital',
-    description: 'Summer 2026 - Incoming',
-    logo: '/magnetar.jpg',
-    isPresent: false,
-  },
-  {
-    id: 2,
     role: 'Applied Machine Learning Research Assistant',
     company: 'CMU Prism Lab',
     description: 'Applying machine learning and formal logic to develop FELIX, a biological superintelligence.',
@@ -29,7 +21,7 @@ export const experiences = [
     isPresent: true,
   },
   {
-    id: 3,
+    id: 2,
     role: 'Backend Software Developer Intern',
     company: 'Goalday',
     description: 'Built an AI Email Agent for construction project managers, automating communication workflows and improving operational efficiency.',
@@ -37,7 +29,7 @@ export const experiences = [
     isPresent: false,
   },
   {
-    id: 4,
+    id: 3,
     role: 'AI & Software Developer Intern',
     company: 'Routed AI',
     description: 'Developed a career networking tool leveraging AI to connect professionals and optimize career pathways.',
@@ -45,7 +37,7 @@ export const experiences = [
     isPresent: false,
   },
   {
-    id: 5,
+    id: 4,
     role: 'Undergraduate Researcher',
     company: 'Carnegie Mellon University',
     description: 'NLP research focused on privacy valuation reasoning, analyzing how natural language processing can be applied to understand privacy preferences.',
@@ -53,7 +45,7 @@ export const experiences = [
     isPresent: false,
   },
   {
-    id: 6,
+    id: 5,
     role: 'Full Stack Software Developer',
     company: 'CMU Scotty Labs',
     description: 'Developed Labrador and CMU Marketplace - full-stack applications serving the Carnegie Mellon community.',
@@ -61,7 +53,7 @@ export const experiences = [
     isPresent: false,
   },
   {
-    id: 7,
+    id: 6,
     role: 'Equity Research Analyst',
     company: 'CMU Tartan Student Fund',
     description: 'TMT sector analyst for a student-run investment group, conducting equity research and investment analysis.',
@@ -69,7 +61,7 @@ export const experiences = [
     isPresent: false,
   },
   {
-    id: 8,
+    id: 7,
     role: 'Executive Board Member',
     company: 'CMU Introductory Finance Societies',
     description: 'Led initiatives in sales & trading and quantitative finance education for undergraduate students.',
@@ -77,7 +69,7 @@ export const experiences = [
     isPresent: false,
   },
   {
-    id: 9,
+    id: 8,
     role: 'Private Equity Intern',
     company: 'Caprae Capital',
     description: 'Deal sourcing for lower/middle market private equity transactions, evaluating investment opportunities.',
