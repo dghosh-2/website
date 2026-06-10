@@ -86,17 +86,10 @@ export function Experiences() {
                     <span className="text-gray">: </span>
                     <span className="text-gray-light">&quot;{exp.company}&quot;</span>
                   </p>
-                  {exp.period && (
-                    <p>
-                      <span className="text-blue">&quot;period&quot;</span>
-                      <span className="text-gray">: </span>
-                      <span className="text-gray-light">&quot;{exp.period}&quot;</span>
-                    </p>
-                  )}
                   <p>
-                    <span className="text-blue">&quot;desc&quot;</span>
+                    <span className="text-blue">&quot;period&quot;</span>
                     <span className="text-gray">: </span>
-                    <span className="text-gray-light">&quot;{exp.description}&quot;</span>
+                    <span className="text-gray-light">&quot;{exp.period}&quot;</span>
                   </p>
                 </div>
                 <span className="text-gray">{'}'}</span>
